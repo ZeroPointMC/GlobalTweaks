@@ -1,6 +1,7 @@
 package zeropoint.minecraft.core.util;
 
 
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import zeropoint.core.StackTrace;
@@ -25,9 +26,15 @@ public class Log {
 	}
 	public static final Logger getLogger(String name, String resBundle) {
 		FMLLog.makeLog(name);
+		Logger logger;
 		if (resBundle == null) {
-			return Logger.getLogger(name, resBundle);
+			logger = Logger.getLogger(name, resBundle);
 		}
-		return Logger.getLogger(name);
+		else {
+			logger = Logger.getLogger(name);
+		}
+		logger.setLevel(Level.ALL);
+		logger.config("Logger initialized");
+		return logger;
 	}
 }

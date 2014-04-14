@@ -38,6 +38,7 @@ import zeropoint.minecraft.core.util.Log;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
+import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.network.IConnectionHandler;
@@ -51,7 +52,7 @@ import cpw.mods.fml.common.network.Player;
 public final class GTCommands {
 	public static final String modid = "gtweaks-commands";
 	public static final String name = "GlobalTweaks|Commands";
-	public static final String version = "beta";
+	public static final String version = "public";
 	protected static HashMap<String, GTBaseCommand> cmds = new HashMap<String, GTBaseCommand>();
 	protected static GTBaseCommand[] cmdNames;
 	private static Config cfg;
@@ -63,9 +64,9 @@ public final class GTCommands {
 	@EventHandler
 	public void load(FMLInitializationEvent event) {
 		if ( !GTCore.Modules.commandsEnabled()) {
+			LOG.warning("Module disabled!");
 			return;
 		}
-		NetworkRegistry.instance().registerConnectionHandler(new CommandsConnectionHandler());
 		cmdNames = new GTBaseCommand[] {
 			// [/absorb] Set absorption hearts
 			new Absorb(),
@@ -115,8 +116,14 @@ public final class GTCommands {
 		}
 	}
 	@EventHandler
+	public void postinit(FMLPostInitializationEvent event) {
+		NetworkRegistry.instance().registerConnectionHandler(new CommandsConnectionHandler());
+		LOG.info("Registered connection handler");
+	}
+	@EventHandler
 	public void serverStart(FMLServerStartingEvent event) {
-		if ( !cfg.bool("enable", "commands.register", true, "Register commands on world load?")) {
+		if ( !cfg.bool("enable", "commands.register", true, "Register commands on world load? This affects other mods that use GT|Commands to add commands!")) {
+			LOG.severe("Command registration disabled! This may cause problems!");
 			return;
 		}
 		Iterator<GTBaseCommand> iter = cmds.values().iterator();
@@ -158,10 +165,10 @@ public final class GTCommands {
 				LOG.severe("CommandsConnectionHandler.clientLoggedIn(...): cannot get EntityPlayer!");
 				return;
 			}
-			new ChatMsg(ChatMsg.SILVER + "You have GlobalTweaks|Commands enabled!").send(player);
+			new ChatMsg(ChatMsg.SILVER + "You have " + ChatMsg.PURPLE + "GlobalTweaks|Commands" + ChatMsg.SILVER + " enabled!").send(player);
 			new ChatMsg(ChatMsg.SILVER + "For a list of commands, use '" + ChatMsg.GOLD + "/gtweak list" + ChatMsg.SILVER + "'").send(player);
 			if (GTCore.Modules.tomesEnabled()) {
-				new ChatMsg(ChatMsg.SILVER + "Alternatively, use GlobalTweaks|Tomes:").send(player);
+				new ChatMsg(ChatMsg.SILVER + "Alternatively, use " + ChatMsg.PURPLE + "GlobalTweaks|Tomes" + ChatMsg.SILVER + ":").send(player);
 				new ChatMsg(ChatMsg.SILVER + "Hold a book and use '" + ChatMsg.GOLD + "/tome load HELP-COMMANDS" + ChatMsg.SILVER + "'").send(player);
 			}
 		}

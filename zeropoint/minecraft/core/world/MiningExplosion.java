@@ -14,7 +14,7 @@ import net.minecraft.world.World;
 
 // This entire class was created just so I could change ONE line.
 // Also, it's only 'safe' in the sense that it drops everything.
-// It'll still kill things.
+// It'll still kill things. I can't remove that bit. Yet.
 public class MiningExplosion extends Explosion {
 	protected World worldObj;
 	protected Random explosionRNG = new Random();
@@ -22,7 +22,6 @@ public class MiningExplosion extends Explosion {
 		super(world, corpseToBe, x, y, z, strength);
 		worldObj = world;
 	}
-	// The one line I needed to change is in here.
 	@Override
 	public void doExplosionB(boolean par1) {
 		this.worldObj.playSoundEffect(this.explosionX, this.explosionY, this.explosionZ, "random.explode", 4.0F, (1.0F + ((this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.2F)) * 0.7F);
@@ -77,19 +76,6 @@ public class MiningExplosion extends Explosion {
 				}
 			}
 		}
-		if (this.isFlaming) {
-			iterator = this.affectedBlockPositions.iterator();
-			while (iterator.hasNext()) {
-				chunkposition = (ChunkPosition) iterator.next();
-				i = chunkposition.x;
-				j = chunkposition.y;
-				k = chunkposition.z;
-				l = this.worldObj.getBlockId(i, j, k);
-				int i1 = this.worldObj.getBlockId(i, j - 1, k);
-				if ((l == 0) && Block.opaqueCubeLookup[i1] && (this.explosionRNG.nextInt(3) == 0)) {
-					this.worldObj.setBlock(i, j, k, Block.fire.blockID);
-				}
-			}
-		}
+		// Okay, I also decided to remove the ability to spawn fire.
 	}
 }

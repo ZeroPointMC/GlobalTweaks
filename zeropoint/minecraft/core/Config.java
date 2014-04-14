@@ -3,6 +3,7 @@ package zeropoint.minecraft.core;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.logging.Logger;
 
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.Property;
@@ -19,6 +20,19 @@ public class Config {
 			c.save();
 		}
 		return this;
+	}
+	public Config save(Logger logger) {
+		if (c.hasChanged()) {
+			c.save();
+			logger.config("Saved configuration to disk");
+		}
+		else {
+			logger.config("Configuration unchanged");
+		}
+		return this;
+	}
+	public boolean hasChanged() {
+		return c.hasChanged();
 	}
 	public String string(String section, String key, Object def, String cmnt) {
 		Property p = c.get(section, key, String.valueOf(def));

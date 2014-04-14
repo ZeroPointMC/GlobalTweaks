@@ -1,12 +1,15 @@
 package zeropoint.minecraft.sonic;
 
 
+import java.util.logging.Logger;
+
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import zeropoint.core.math.MathUtil;
 import zeropoint.minecraft.core.Config;
 import zeropoint.minecraft.core.GTCore;
+import zeropoint.minecraft.core.util.Log;
 import zeropoint.minecraft.sonic.SonicScrewdriver.SonicColour;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -29,10 +32,12 @@ public class GTSonic {
 	protected static int redstoneLampActiveId;
 	protected static int redstoneLampInactiveId;
 	private static Config cfg;
+	private static final Logger LOG = Log.getLogger(name);
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
 		cfg = GTCore.getConfig();
 		if ( !GTCore.Modules.sonicEnabled()) {
+			LOG.warning("Module disabled!");
 			return;
 		}
 		redstoneLampActiveId = cfg.block("sonicRedstoneLamp", 2742, "The ID of the always-on redstone lamp");
@@ -55,6 +60,7 @@ public class GTSonic {
 		LanguageRegistry.addName(sonicGreen, "Sonic Screwdriver");
 		GameRegistry.registerItem(sonicBlue, "sonicScrewdriverBlue");
 		LanguageRegistry.addName(sonicBlue, "Sonic Screwdriver");
+		LOG.info("Items/blocks registered");
 	}
 	protected void addRecipes() {
 		ItemStack sonicProbeGreen = new ItemStack(sonicGreen);
@@ -65,5 +71,6 @@ public class GTSonic {
 		ItemStack iron = new ItemStack(Item.ingotIron);
 		GameRegistry.addRecipe(sonicProbeGreen, "e  ", " g ", "  i", 'e', emerald, 'g', gold, 'i', iron);
 		GameRegistry.addRecipe(sonicProbeBlue, "d  ", " g ", "  i", 'd', diamond, 'g', gold, 'i', iron);
+		LOG.info("Recipes registered");
 	}
 }

@@ -3,10 +3,12 @@ package zeropoint.minecraft.enchant;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import net.minecraft.enchantment.Enchantment;
 import zeropoint.minecraft.core.Config;
 import zeropoint.minecraft.core.GTCore;
+import zeropoint.minecraft.core.util.Log;
 import zeropoint.minecraft.enchant.ench.EnchantmentDecapitate;
 import zeropoint.minecraft.enchant.ench.EnchantmentGodslayer;
 import zeropoint.minecraft.enchant.ench.EnchantmentWolfSpeed;
@@ -24,10 +26,12 @@ public class GTEnchant {
 	public static final String version = "semi-beta";
 	private static final Map<String, Enchantment> enchants = new HashMap<String, Enchantment>();
 	private static Config cfg;
+	private static final Logger LOG = Log.getLogger(name);
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
 		cfg = GTCore.getConfig();
 		if ( !GTCore.Modules.enchantEnabled()) {
+			LOG.warning("Module disabled!");
 			return;
 		}
 		int decap = getEnchantID("decapitate", 10, "Force mobs to drop their heads more often");
@@ -40,12 +44,24 @@ public class GTEnchant {
 		boolean slayerHardMode = cfg.bool("enchant.misc", "godslayer.hardMode", true, "Require a dragon egg to get the enchantment? (If false, another nether star will be needed instead)");
 		if (getEnchantEnabled("decapitate", true, "Register the Decapitation enchantment?")) {
 			enchants.put("decapitate", new EnchantmentDecapitate(decap));
+			LOG.info("Registered Decapitate enchantment");
+		}
+		else {
+			LOG.info("Didn't register Decapitate enchantment");
 		}
 		if (getEnchantEnabled("godslayer", false, "Register the completely OP Godslayer enchantment?")) {
 			enchants.put("godslayer", new EnchantmentGodslayer(slayer, slayerBossDamage, slayerDamage, slayerShaped, slayerHardMode));
+			LOG.info("Registered Godslayer enchantment");
+		}
+		else {
+			LOG.info("Didn't register Godslayer enchantment");
 		}
 		if (getEnchantEnabled("speedOfTheWolf", false, "Register the Direwolf20-inspired Speed of the Wolf enchantment?")) {
 			enchants.put("wolfspeed", new EnchantmentWolfSpeed(wolfspeed, wolfspeedShaped));
+			LOG.info("Registered Speed of the Wolf enchantment");
+		}
+		else {
+			LOG.info("Didn't register Speed of the Wolf enchantment");
 		}
 	}
 	protected static int getEnchantID(String enchName, int def, String cmnt) {

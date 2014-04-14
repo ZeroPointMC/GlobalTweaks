@@ -18,6 +18,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.World;
+import zeropoint.minecraft.core.GTCore;
 import zeropoint.minecraft.core.util.ChatMsg;
 import zeropoint.minecraft.core.util.EnumBlockSide;
 import zeropoint.minecraft.core.world.entity.EntityMiningTNT;
@@ -65,6 +66,9 @@ public class SonicScrewdriver extends Item {
 		l.add("Use the HELP-SONIC book from the GT Tomes module!");
 		l.add("To get it, hold a book and use this chat command:");
 		l.add("/tome load HELP-SONIC");
+		if ( !GTCore.Modules.tomesEnabled()) {
+			l.add("WARNING! Tomes module disabled!");
+		}
 	}
 	@Override
 	public EnumAction getItemUseAction(ItemStack par1ItemStack) {
@@ -142,17 +146,21 @@ public class SonicScrewdriver extends Item {
 		}
 		// Purpose: turn on redstone lamps
 		else if (target == Block.redstoneLampIdle.blockID) {
-			world.setBlock(x, y, z, GTSonic.redstoneLampActiveId);
+			// Sneak to force it to remain in the current state, otherwise the state is toggled
+			world.setBlock(x, y, z, player.isSneaking() ? GTSonic.redstoneLampInactiveId : GTSonic.redstoneLampActiveId);
 		}
 		else if (target == GTSonic.redstoneLampActiveId) {
-			world.setBlock(x, y, z, Block.redstoneLampActive.blockID);
+			// Sneak to return it to the vanilla redstone lamp, otherwise the state is toggled
+			world.setBlock(x, y, z, player.isSneaking() ? Block.redstoneLampActive.blockID : GTSonic.redstoneLampInactiveId);
 		}
 		// Purpose: turn off redstone lamps
 		else if (target == Block.redstoneLampActive.blockID) {
-			world.setBlock(x, y, z, GTSonic.redstoneLampInactiveId);
+			// Sneak to force it to remain in the current state, otherwise the state is toggled
+			world.setBlock(x, y, z, player.isSneaking() ? GTSonic.redstoneLampActiveId : GTSonic.redstoneLampInactiveId);
 		}
 		else if (target == GTSonic.redstoneLampInactiveId) {
-			world.setBlock(x, y, z, Block.redstoneLampIdle.blockID);
+			// Sneak to return it to the vanilla redstone lamp, otherwise the state is toggled
+			world.setBlock(x, y, z, player.isSneaking() ? Block.redstoneLampIdle.blockID : GTSonic.redstoneLampActiveId);
 		}
 		// Purpose: grow grass on dirt
 		else if (target == Block.dirt.blockID) {

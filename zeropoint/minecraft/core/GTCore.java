@@ -25,7 +25,7 @@ import cpw.mods.fml.common.network.NetworkMod;
 public class GTCore {
 	public static final String modid = "gtweaks-core";
 	public static final String name = "GlobalTweaks";
-	public static final String version = "release";
+	public static final String version = "public";
 	public static final Logger logger = Log.getLogger(name);
 	private static Configuration config;
 	private static Config cfg;
@@ -64,18 +64,18 @@ public class GTCore {
 		Modules.sonic = cfg.bool("enable", "sonic", true, "Enable the GlobalTweaks|Sonic module?");
 		Modules.enchant = cfg.bool("enable", "enchant", true, "Enable the GlobalTweaks|Enchant module?");
 		Modules.tomes = cfg.bool("enable", "tomes", true, "Enable the GlobalTweaks|Tomes module?");
+		logger.config("Configuration initialized");
 	}
 	@EventHandler
 	public void preinit(FMLPreInitializationEvent event) {
 		this.initConf();
-	}
-	@EventHandler
-	public void init(FMLInitializationEvent event) {
 		loadModList(true);
 	}
 	@EventHandler
+	public void init(FMLInitializationEvent event) {}
+	@EventHandler
 	public void postinit(FMLPostInitializationEvent event) {
-		cfg.save();
+		cfg.save(logger);
 	}
 	public final static EntityPlayer getPlayerEntity(ICommandSender ics) {
 		try {
@@ -104,6 +104,12 @@ public class GTCore {
 	protected static final void loadModList(boolean force) {
 		if (modListLoaded && !force) {
 			return;
+		}
+		if (modListLoaded && force) {
+			logger.config("Reloading active mod list");
+		}
+		else {
+			logger.config("Loading active mod list");
 		}
 		List<ModContainer> mods = Loader.instance().getActiveModList();
 		for (ModContainer mod : mods) {

@@ -1,10 +1,10 @@
 package zeropoint.minecraft.core.world.entity;
 
 
-import zeropoint.minecraft.core.world.MiningExplosion;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityTNTPrimed;
 import net.minecraft.world.World;
+import zeropoint.minecraft.core.world.MiningExplosion;
 
 
 public class EntityMiningTNT extends EntityTNTPrimed {
@@ -45,7 +45,7 @@ public class EntityMiningTNT extends EntityTNTPrimed {
 		}
 	}
 	protected void explode() {
-		MiningExplosion boom = new MiningExplosion(this.worldObj, this, this.posX, this.posY, this.posZ, 16.0F);
+		MiningExplosion boom = new MiningExplosion(this.worldObj, this, this.posX, this.posY, this.posZ, 32.0F);
 		boom.isFlaming = false;
 		boom.isSmoking = true;
 		boom.doExplosionA();

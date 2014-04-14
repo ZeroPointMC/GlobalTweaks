@@ -172,11 +172,12 @@ public class GTTomes {
 		return new WrittenBookTag(title, author).append(pages).create();
 	}
 	protected static ItemStack bookFactory(String title, String author, Collection<? extends String> pages) {
-		return new WrittenBookTag(title, author).append(pages).create();
+		return bookFactory(title, author, pages.toArray(new String[] {}));
 	}
 	@EventHandler
 	public void load(FMLInitializationEvent event) {
 		if ( !GTCore.Modules.tomesEnabled()) {
+			LOG.severe("Module disabled! All GlobalTweaks in-game guides will be unavailable!");
 			return;
 		}
 		cfg = GTCore.getConfig();
@@ -219,6 +220,7 @@ public class GTTomes {
 		help.println("Formatting codes can be found easily on the Minecraft wiki.\n\nPlease note that no checks are done to ensure that the content you provide fits on one line.\n--PAGEBREAK--");
 		help.print("That's all there is to it!\nAnd if you can help me figure out why the NBTTagList seems to be caching entries, I'll put your name in the credits for this mod.\n\n~Zero");
 		help.close();
+		LOG.info("Wrote help file " + fileName);
 	}
 	protected static final void createGuideCommands(String fileName) {
 		OutputFile help = createFile(fileName);
@@ -244,6 +246,7 @@ public class GTTomes {
 			help.println(cmd.getCommandHelp(null));
 		}
 		help.close();
+		LOG.info("Wrote help file " + fileName);
 	}
 	protected static final void createGuideCraft(String fileName) {
 		OutputFile help = createFile(fileName);
@@ -285,6 +288,7 @@ public class GTTomes {
 		help.println("D = Diamond Block");
 		help.println("O = Obsidian");
 		help.close();
+		LOG.info("Wrote help file " + fileName);
 	}
 	protected static final void createGuideEnchant(String fileName) {
 		OutputFile help = createFile(fileName);
@@ -312,6 +316,7 @@ public class GTTomes {
 		help.println("Causes ridiculously high damage to boss mobs and hits them with lightning. We're talking one, MAYBE two hits to kill ANYTHING.");
 		help.println("§4MAY BE SHAPED§0 - Place the sword in a crafting table with seven nether stars and one dragon egg. If easy mode is enabled, replace the dragon egg with another nether star. If shaped, sword goes in the middle and egg (if needed) on top.");
 		help.close();
+		LOG.info("Wrote help file " + fileName);
 	}
 	protected static final void createGuideSonic(String fileName) {
 		OutputFile help = createFile(fileName);
@@ -328,19 +333,26 @@ public class GTTomes {
 		help.println("The Sonic module adds - what else - Sonic Screwdrivers! This book lists their effects.");
 		help.println("--PAGEBREAK--");
 		help.println("Opens/closes doors");
-		help.println("Toggles redstone lamps");
 		help.println("Grows grass");
 		help.println("Breaks down sandstone into sand");
 		help.println("Heats sand into glass blocks");
 		help.println("Compresses glass blocks into glass panes");
 		help.println("Destroys ice (sneak to melt it into water)");
-		help.println("--PAGEBREAK--");
 		help.println("Ignites TNT (sneak to improve it for mining)");
+		help.println("--PAGEBREAK--");
 		help.println("Stabilizes gravel into cobblestone");
 		help.println("Heats cobblestone into smoothstone");
+		help.println("Fiddles with redstone lamps");
 		help.println("Scans health of living entities");
 		help.println("Heals living entities up to " + GTSonic.maxCreatureHealPercent + "% max");
+		help.println("--PAGEBREAK--");
+		help.print("Sneak when right clicking a redstone lamp to force it to stay in its current state (on or off). ");
+		help.println("Otherwise, it will toggle and " + ChatMsg.ITALIC + "then" + ChatMsg.BLACK + " remain in that state.");
+		help.println("--PAGEBREAK--");
+		help.print("When right clicking a sonic'd lamp, sneak to return it to normal, so redstone controls it. ");
+		help.println("Otherwise, it will just toggle states.");
 		help.close();
+		LOG.info("Wrote help file " + fileName);
 	}
 	protected static final OutputFile createFile(String fileName) {
 		Path tomes = FileSystems.getDefault().getPath(path);
@@ -355,6 +367,7 @@ public class GTTomes {
 		catch (IOException e) {
 			throw new RuntimeException("Could not create " + fileName + " help file", e);
 		}
+		LOG.info("Initialized help file " + fileName);
 		return help;
 	}
 }

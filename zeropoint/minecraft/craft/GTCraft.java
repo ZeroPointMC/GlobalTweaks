@@ -22,26 +22,40 @@ import cpw.mods.fml.common.registry.GameRegistry;
 public class GTCraft {
 	public static final String modid = "gtweaks-craft";
 	public static final String name = "GlobalTweaks|Craft";
-	public static final String version = "release";
+	public static final String version = "public";
 	private static Config cfg;
 	private static final Logger LOG = Log.getLogger(name);
+	private static boolean enableHook = false;
+	private static boolean enableDebug = false;
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
 		cfg = GTCore.getConfig();
 		if ( !GTCore.Modules.craftEnabled()) {
+			LOG.warning("Module disabled!");
 			return;
 		}
-		if (cfg.bool("recipes.debug", "hook", false, "Output the contents of the crafting grid to the console EVERY TIME it changes.\nFor ANY AND EVERY CRAFTING GRID.\nTurning this on will redefine 'console spam', so be careful.")) {
-			Recipes.hook();
-		}
+		enableHook = cfg.bool("recipes.debug", "hook", false, "Output the contents of the crafting grid to the console EVERY TIME it changes.\nFor ANY AND EVERY CRAFTING GRID.\nTurning this on will redefine 'console spam', so be careful.");
+		enableDebug = cfg.bool("recipes.debug", "debug", false, "Allow external mods to output the contents of a crafting grid on demand?");
+		Recipes.hook();
 		Recipes.bedrock();
 		Recipes.endPortalFrame();
 		Recipes.netherStar();
 	}
-	private static class Recipes {
-		private static class Hook implements IRecipe {
-			public static final Logger l = Log.getLogger(name + " DebugHook");
+	public static final boolean allowDebug() {
+		return enableDebug;
+	}
+	public static final void debug(InventoryCrafting grid) {
+		if (allowDebug()) {
+			Recipes.Hook.debug(grid);
+		}
+	}
+	private static final class Recipes {
+		private static final class Hook implements IRecipe {
+			private static final Logger l = Log.getLogger(name + " DebugHook");
 			public static void debug(InventoryCrafting grid) {
+				if ( !GTCraft.enableDebug && !GTCraft.enableHook) {
+					return;
+				}
 				l.info("BEGIN CRAFTING DEBUG HOOK OUTPUT");
 				for (int i = 0; i < grid.getSizeInventory(); i++ ) {
 					String msg = "";
@@ -66,6 +80,9 @@ public class GTCraft {
 			}
 		}
 		public static void hook() {
+			if ( !GTCraft.enableHook) {
+				return;
+			}
 			GameRegistry.addRecipe(new Hook());
 			Hook.l.severe("Crafting manager hooked!");
 			Hook.l.severe("Console will be spammed with crafting grid contents on change!");
