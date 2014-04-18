@@ -7,6 +7,11 @@ import net.minecraft.entity.player.EntityPlayer;
 import zeropoint.minecraft.core.GTBaseCommand;
 
 
+/**
+ * [/enchlist] List all enchantments to the console
+ * 
+ * @author Zero Point
+ */
 public class Enchlist extends GTBaseCommand {
 	@Override
 	public String getCommandName() {

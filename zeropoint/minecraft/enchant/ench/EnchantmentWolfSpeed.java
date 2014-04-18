@@ -10,11 +10,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import zeropoint.minecraft.core.ench.CraftedEnchantment;
-import zeropoint.minecraft.core.util.EnchantHelper;
 import zeropoint.minecraft.core.util.Log;
+import zeropoint.minecraft.core.util.manip.EnchantHelper;
 import zeropoint.minecraft.enchant.GTEnchant;
 
 
+@SuppressWarnings("javadoc")
 public class EnchantmentWolfSpeed extends CraftedEnchantment {
 	public final boolean shaped;
 	public EnchantmentWolfSpeed(int id) {
@@ -24,7 +25,7 @@ public class EnchantmentWolfSpeed extends CraftedEnchantment {
 		super(id, 2, EnumEnchantmentType.armor_feet);
 		this.setName("gtweaks.wolfspeed");
 		this.initialize();
-		shaped = shape;
+		this.shaped = shape;
 		this.hasLevels = false;
 	}
 	@Override
@@ -44,7 +45,7 @@ public class EnchantmentWolfSpeed extends CraftedEnchantment {
 	}
 	@Override
 	public int findTarget(InventoryCrafting grid) {
-		if ( !shaped) {
+		if ( !this.shaped) {
 			for (int i = 0; i < grid.getSizeInventory(); i++ ) {
 				ItemStack slot = grid.getStackInSlot(i);
 				if (slot == null) {
@@ -75,7 +76,7 @@ public class EnchantmentWolfSpeed extends CraftedEnchantment {
 	}
 	@Override
 	public int getEnchLevel(InventoryCrafting grid) {
-		if ( !shaped) {
+		if ( !this.shaped) {
 			int sugar = 0;
 			int feather = 0;
 			int redstone = 0;

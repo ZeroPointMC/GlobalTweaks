@@ -8,6 +8,11 @@ import zeropoint.minecraft.core.GTBaseCommand;
 import zeropoint.minecraft.core.util.ChatMsg;
 
 
+/**
+ * [/halp &lt;command>] Get extended command help
+ * 
+ * @author Zero Point
+ */
 public class Halp extends GTBaseCommand {
 	public String getCommandName() {
 		return "halp";

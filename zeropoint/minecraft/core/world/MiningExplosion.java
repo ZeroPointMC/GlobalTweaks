@@ -15,6 +15,7 @@ import net.minecraft.world.World;
 // This entire class was created just so I could change ONE line.
 // Also, it's only 'safe' in the sense that it drops everything.
 // It'll still kill things. I can't remove that bit. Yet.
+//TODO: write Javadoc
 public class MiningExplosion extends Explosion {
 	protected World worldObj;
 	protected Random explosionRNG = new Random();

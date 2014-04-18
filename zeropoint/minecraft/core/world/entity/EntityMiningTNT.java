@@ -7,6 +7,7 @@ import net.minecraft.world.World;
 import zeropoint.minecraft.core.world.MiningExplosion;
 
 
+//TODO: write Javadoc
 public class EntityMiningTNT extends EntityTNTPrimed {
 	public EntityMiningTNT(World world) {
 		super(world);

@@ -20,9 +20,10 @@ import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import zeropoint.core.math.MathUtil;
 import zeropoint.minecraft.core.ench.CraftedEnchantment;
 import zeropoint.minecraft.core.util.ChatMsg;
-import zeropoint.minecraft.core.util.EnchantHelper;
+import zeropoint.minecraft.core.util.manip.EnchantHelper;
 
 
+@SuppressWarnings("javadoc")
 public class EnchantmentDecapitate extends CraftedEnchantment {
 	private static final Random r = new Random();
 	public EnchantmentDecapitate(int id) {
@@ -56,7 +57,7 @@ public class EnchantmentDecapitate extends CraftedEnchantment {
 	public int getEnchLevel(InventoryCrafting grid) {
 		return findSkulls(grid);
 	}
-	private int findSkulls(InventoryCrafting grid) {
+	private static int findSkulls(InventoryCrafting grid) {
 		int foundSkulls = 0;
 		for (int i = 0; i < grid.getSizeInventory(); i++ ) {
 			ItemStack stack = grid.getStackInSlot(i);

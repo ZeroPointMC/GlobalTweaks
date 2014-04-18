@@ -14,22 +14,7 @@ import net.minecraft.network.NetLoginHandler;
 import net.minecraft.network.packet.NetHandler;
 import net.minecraft.network.packet.Packet1Login;
 import net.minecraft.server.MinecraftServer;
-import zeropoint.minecraft.commands.com.Absorb;
-import zeropoint.minecraft.commands.com.Air;
-import zeropoint.minecraft.commands.com.Book;
-import zeropoint.minecraft.commands.com.Clipboard;
-import zeropoint.minecraft.commands.com.Enchlist;
-import zeropoint.minecraft.commands.com.Extinguish;
-import zeropoint.minecraft.commands.com.Feed;
-import zeropoint.minecraft.commands.com.Fly;
-import zeropoint.minecraft.commands.com.God;
-import zeropoint.minecraft.commands.com.Gtweak;
-import zeropoint.minecraft.commands.com.Halp;
-import zeropoint.minecraft.commands.com.Heal;
-import zeropoint.minecraft.commands.com.Health;
-import zeropoint.minecraft.commands.com.Repair;
-import zeropoint.minecraft.commands.com.Uuid;
-import zeropoint.minecraft.commands.com.Vanish;
+import zeropoint.minecraft.commands.com.*;
 import zeropoint.minecraft.core.Config;
 import zeropoint.minecraft.core.GTBaseCommand;
 import zeropoint.minecraft.core.GTCore;
@@ -47,6 +32,7 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.network.Player;
 
 
+@SuppressWarnings("javadoc")
 @Mod(modid = GTCommands.modid, name = GTCommands.name, version = GTCommands.version, dependencies = "required-after:gtweaks-core")
 @NetworkMod(clientSideRequired = true, serverSideRequired = false)
 public final class GTCommands {
@@ -57,12 +43,14 @@ public final class GTCommands {
 	protected static GTBaseCommand[] cmdNames;
 	private static Config cfg;
 	private static final Logger LOG = Log.getLogger(name);
+	@SuppressWarnings("unused")
 	@EventHandler
-	public void preinit(FMLPreInitializationEvent event) {
-		cfg = new Config(GTCore.getConfiguration());
+	public static void preinit(FMLPreInitializationEvent event) {
+		cfg = GTCore.getConfig();
 	}
+	@SuppressWarnings("unused")
 	@EventHandler
-	public void load(FMLInitializationEvent event) {
+	public static void load(FMLInitializationEvent event) {
 		if ( !GTCore.Modules.commandsEnabled()) {
 			LOG.warning("Module disabled!");
 			return;
@@ -115,13 +103,14 @@ public final class GTCommands {
 			}
 		}
 	}
+	@SuppressWarnings("unused")
 	@EventHandler
-	public void postinit(FMLPostInitializationEvent event) {
+	public static void postinit(FMLPostInitializationEvent event) {
 		NetworkRegistry.instance().registerConnectionHandler(new CommandsConnectionHandler());
 		LOG.info("Registered connection handler");
 	}
 	@EventHandler
-	public void serverStart(FMLServerStartingEvent event) {
+	public static void serverStart(FMLServerStartingEvent event) {
 		if ( !cfg.bool("enable", "commands.register", true, "Register commands on world load? This affects other mods that use GT|Commands to add commands!")) {
 			LOG.severe("Command registration disabled! This may cause problems!");
 			return;
@@ -159,6 +148,7 @@ public final class GTCommands {
 		public void connectionOpened(NetHandler netClientHandler, String server, int port, INetworkManager manager) {}
 		public void connectionOpened(NetHandler netClientHandler, MinecraftServer server, INetworkManager manager) {}
 		public void connectionClosed(INetworkManager manager) {}
+		@SuppressWarnings("synthetic-access")
 		public void clientLoggedIn(NetHandler clientHandler, INetworkManager manager, Packet1Login login) {
 			EntityPlayer player = clientHandler.getPlayer();
 			if (player == null) {

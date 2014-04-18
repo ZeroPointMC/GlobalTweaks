@@ -8,6 +8,11 @@ import zeropoint.minecraft.core.GTBaseCommand;
 import zeropoint.minecraft.core.util.ChatMsg;
 
 
+/**
+ * [/god [on|off]] Toggle player damage
+ * 
+ * @author Zero Point
+ */
 public class God extends GTBaseCommand {
 	public String getCommandName() {
 		return "god";

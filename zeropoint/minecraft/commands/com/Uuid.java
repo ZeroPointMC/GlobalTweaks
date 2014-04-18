@@ -10,6 +10,11 @@ import zeropoint.minecraft.core.GTBaseCommand;
 import zeropoint.minecraft.core.util.ChatMsg;
 
 
+/**
+ * [/uuid [copy]] Generate a random UUID, optionally copy to clipboard
+ * 
+ * @author Zero Point
+ */
 public class Uuid extends GTBaseCommand {
 	@Override
 	public String getCommandName() {

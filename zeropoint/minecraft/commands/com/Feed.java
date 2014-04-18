@@ -7,6 +7,11 @@ import zeropoint.minecraft.core.GTBaseCommand;
 import zeropoint.minecraft.core.util.manip.PlayerHelper;
 
 
+/**
+ * [/feed [&lt;amount>]] Set hunger level
+ * 
+ * @author Zero Point
+ */
 public class Feed extends GTBaseCommand {
 	public String getCommandName() {
 		return "feed";

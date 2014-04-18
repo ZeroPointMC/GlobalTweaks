@@ -33,6 +33,7 @@ import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.relauncher.Side;
 
 
+@SuppressWarnings("javadoc")
 @Mod(modid = GTTomes.modid, name = GTTomes.name, version = GTTomes.version, dependencies = "required-after:gtweaks-core")
 @NetworkMod(clientSideRequired = true, serverSideRequired = false)
 public class GTTomes {
@@ -174,8 +175,9 @@ public class GTTomes {
 	protected static ItemStack bookFactory(String title, String author, Collection<? extends String> pages) {
 		return bookFactory(title, author, pages.toArray(new String[] {}));
 	}
+	@SuppressWarnings("unused")
 	@EventHandler
-	public void load(FMLInitializationEvent event) {
+	public static void load(FMLInitializationEvent event) {
 		if ( !GTCore.Modules.tomesEnabled()) {
 			LOG.severe("Module disabled! All GlobalTweaks in-game guides will be unavailable!");
 			return;
@@ -199,7 +201,7 @@ public class GTTomes {
 		createGuideSonic("HELP-SONIC");
 	}
 	@EventHandler
-	public void register(FMLPostInitializationEvent event) {
+	public static void register(FMLPostInitializationEvent event) {
 		if (event.getSide() == Side.CLIENT) {
 			ClientCommandHandler.instance.registerCommand(cmdTome);
 			LOG.info("Registered client side tome command");
@@ -351,6 +353,8 @@ public class GTTomes {
 		help.println("--PAGEBREAK--");
 		help.print("When right clicking a sonic'd lamp, sneak to return it to normal, so redstone controls it. ");
 		help.println("Otherwise, it will just toggle states.");
+		help.println("--PAGEBREAK--");
+		help.println("Please note that sonic-ing " + ChatMsg.ITALIC + "active" + ChatMsg.BLACK + " redstone lamps is buggy and won't work yet. I'm working on fixing it.");
 		help.close();
 		LOG.info("Wrote help file " + fileName);
 	}

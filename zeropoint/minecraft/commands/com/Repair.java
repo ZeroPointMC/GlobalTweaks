@@ -8,6 +8,11 @@ import zeropoint.minecraft.core.util.ChatMsg;
 import zeropoint.minecraft.core.util.manip.PlayerHelper;
 
 
+/**
+ * [/repair [hand|hotbar|inv|armo[u]r|all]] Repair item(s) by setting meta to zero
+ * 
+ * @author Zero Point
+ */
 public class Repair extends GTBaseCommand {
 	public String getCommandName() {
 		return "repair";

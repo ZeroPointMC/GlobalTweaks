@@ -8,6 +8,12 @@ import zeropoint.minecraft.core.GTBaseCommand;
 import zeropoint.minecraft.core.util.ChatMsg;
 
 
+/**
+ * [/clipboard {get|set &lt;text>}] Manipulate the user's clipboard
+ * 
+ * @author Zero Point
+ */
+@SuppressWarnings("javadoc")
 public class Clipboard extends GTBaseCommand {
 	public static final String GET = "get".intern();
 	public static final String SET = "set".intern();
@@ -21,7 +27,7 @@ public class Clipboard extends GTBaseCommand {
 	}
 	@Override
 	public String getCommandArgs(ICommandSender src) {
-		return "{get <text>|set <text>}";
+		return "{get|set <text>}";
 	}
 	@Override
 	public void execute(ICommandSender src, EntityPlayer player, String[] args) {

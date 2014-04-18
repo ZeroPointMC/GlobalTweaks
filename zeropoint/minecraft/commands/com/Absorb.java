@@ -7,6 +7,11 @@ import zeropoint.minecraft.core.GTBaseCommand;
 import zeropoint.minecraft.core.util.manip.PlayerHelper;
 
 
+/**
+ * [/absorb &lt;amount>] Sets the player's absorption hearts
+ * 
+ * @author Zero Point
+ */
 public class Absorb extends GTBaseCommand {
 	public String getCommandName() {
 		return "absorb";

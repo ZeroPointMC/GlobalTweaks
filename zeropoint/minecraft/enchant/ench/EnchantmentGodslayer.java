@@ -15,12 +15,13 @@ import net.minecraft.util.EntityDamageSource;
 import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import zeropoint.minecraft.core.ench.CraftedEnchantment;
-import zeropoint.minecraft.core.util.EnchantHelper;
 import zeropoint.minecraft.core.util.Log;
+import zeropoint.minecraft.core.util.manip.EnchantHelper;
 import zeropoint.minecraft.core.util.manip.WorldHelper;
 import zeropoint.minecraft.enchant.GTEnchant;
 
 
+@SuppressWarnings("javadoc")
 public class EnchantmentGodslayer extends CraftedEnchantment {
 	public static final float DEF_DAM_BOSS = 200F;
 	public static final float DEF_DAM = 20F;
@@ -40,16 +41,16 @@ public class EnchantmentGodslayer extends CraftedEnchantment {
 		this(id, bossDam, dam, DEF_SHAPE);
 	}
 	public EnchantmentGodslayer(int id, float bossDam, float dam, boolean shaped) {
-		this(id, bossDam, dam, DEF_SHAPE, DEF_HARD);
+		this(id, bossDam, dam, shaped, DEF_HARD);
 	}
 	public EnchantmentGodslayer(int id, float bossDam, float dam, boolean shaped, boolean hard) {
 		super(id, 2, EnumEnchantmentType.weapon);
 		setName("gtweaks.godslayer");
 		initialize();
-		bossDamage = bossDam;
-		damage = dam;
-		useShaped = shaped;
-		hardMode = hard;
+		this.bossDamage = bossDam;
+		this.damage = dam;
+		this.useShaped = shaped;
+		this.hardMode = hard;
 		this.hasLevels = false;
 	}
 	// Section: configuration
@@ -84,7 +85,7 @@ public class EnchantmentGodslayer extends CraftedEnchantment {
 	public int getRecipeSize() {
 		return 9;
 	}
-	public int findToolShaped(InventoryCrafting grid) {
+	public static int findToolShaped(InventoryCrafting grid) {
 		ItemStack stack = grid.getStackInSlot(4);
 		if (stack == null) {
 			return -1;
@@ -95,18 +96,18 @@ public class EnchantmentGodslayer extends CraftedEnchantment {
 		return -1;
 	}
 	public int getEnchLevelShaped(InventoryCrafting grid) {
-		if (hardMode) {
+		if (this.hardMode) {
 			return getEnchLevelShapedWithEgg(grid);
 		}
 		return getEnchLevelShapedWithoutEgg(grid);
 	}
 	public int getEnchLevelShapeless(InventoryCrafting grid) {
-		if (hardMode) {
+		if (this.hardMode) {
 			return getEnchLevelShapelessWithEgg(grid);
 		}
 		return getEnchLevelShapelessWithoutEgg(grid);
 	}
-	public int getEnchLevelShapedWithoutEgg(InventoryCrafting grid) {
+	public static int getEnchLevelShapedWithoutEgg(InventoryCrafting grid) {
 		int stars = 0;
 		for (int i = 0; i <= 9; i++ ) {
 			if (i != 4) {
@@ -121,7 +122,7 @@ public class EnchantmentGodslayer extends CraftedEnchantment {
 		}
 		return ((stars >= 8) ? 1 : 0);
 	}
-	public int getEnchLevelShapedWithEgg(InventoryCrafting grid) {
+	public static int getEnchLevelShapedWithEgg(InventoryCrafting grid) {
 		boolean egg = false;
 		int stars = 0;
 		for (int i = 0; i <= 9; i++ ) {
@@ -140,7 +141,7 @@ public class EnchantmentGodslayer extends CraftedEnchantment {
 		}
 		return (egg && (stars >= 7) ? 1 : 0);
 	}
-	public int findToolShapeless(InventoryCrafting grid) {
+	public static int findToolShapeless(InventoryCrafting grid) {
 		for (int i = 0; i < grid.getSizeInventory(); i++ ) {
 			ItemStack stack = grid.getStackInSlot(i);
 			if (stack != null) {
@@ -152,7 +153,7 @@ public class EnchantmentGodslayer extends CraftedEnchantment {
 		}
 		return -1;
 	}
-	public int getEnchLevelShapelessWithoutEgg(InventoryCrafting grid) {
+	public static int getEnchLevelShapelessWithoutEgg(InventoryCrafting grid) {
 		int stars = 0;
 		for (int i = 0; i < grid.getSizeInventory(); i++ ) {
 			ItemStack stack = grid.getStackInSlot(i);
@@ -167,7 +168,7 @@ public class EnchantmentGodslayer extends CraftedEnchantment {
 		}
 		return 1;
 	}
-	public int getEnchLevelShapelessWithEgg(InventoryCrafting grid) {
+	public static int getEnchLevelShapelessWithEgg(InventoryCrafting grid) {
 		boolean egg = false;
 		int stars = 0;
 		for (int i = 0; i < grid.getSizeInventory(); i++ ) {
@@ -188,14 +189,14 @@ public class EnchantmentGodslayer extends CraftedEnchantment {
 	}
 	@Override
 	public int findTarget(InventoryCrafting grid) {
-		if (useShaped) {
+		if (this.useShaped) {
 			return findToolShaped(grid);
 		}
 		return findToolShapeless(grid);
 	}
 	@Override
 	public int getEnchLevel(InventoryCrafting grid) {
-		if (useShaped) {
+		if (this.useShaped) {
 			return getEnchLevelShaped(grid);
 		}
 		return getEnchLevelShapeless(grid);
@@ -229,11 +230,11 @@ public class EnchantmentGodslayer extends CraftedEnchantment {
 			}
 			EntityDamageSource src = new EntityDamageSource("godslayer", e.entityPlayer);
 			if (target instanceof IBossDisplayData) {
-				target.attackEntityFrom(src, bossDamage);
+				target.attackEntityFrom(src, this.bossDamage);
 				WorldHelper.zap(target);
 			}
 			else {
-				target.attackEntityFrom(src, damage);
+				target.attackEntityFrom(src, this.damage);
 			}
 		}
 		catch (Exception ex) {

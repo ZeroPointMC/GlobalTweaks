@@ -7,6 +7,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 
+//TODO: write Javadoc
 public class PlayerHelper {
 	public static final int MAX_OVERHEAL = 80;
 	public static final int DEFAULT_MAX_HEALTH_BASE = 20;

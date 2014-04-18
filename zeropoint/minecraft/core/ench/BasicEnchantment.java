@@ -9,6 +9,7 @@ import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
 
+//TODO: write Javadoc
 public abstract class BasicEnchantment extends Enchantment {
 	protected boolean hasLevels = true;
 	protected BasicEnchantment(int par1, int par2, EnumEnchantmentType par3EnumEnchantmentType) {

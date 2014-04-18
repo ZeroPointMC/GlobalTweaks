@@ -12,13 +12,18 @@ import zeropoint.minecraft.core.util.ChatMsg;
 import zeropoint.minecraft.core.util.WrittenBookTag;
 
 
+/**
+ * [/book {unsign|author &lt;author>|title &lt;title>}] Multipurpose book editor - unsign, change author, change title
+ * 
+ * @author Zero Point
+ */
 public class Book extends GTBaseCommand {
 	public String getCommandName() {
 		return "book";
 	}
 	@Override
 	public String getCommandHelp(ICommandSender src) {
-		return "Multipurpose book editor";
+		return "Multipurpose book editor - unsign, change author, change title";
 	}
 	@Override
 	public String getCommandArgs(ICommandSender src) {

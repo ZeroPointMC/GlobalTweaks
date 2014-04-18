@@ -24,44 +24,31 @@ import zeropoint.minecraft.core.util.EnumBlockSide;
 import zeropoint.minecraft.core.world.entity.EntityMiningTNT;
 
 
+@SuppressWarnings("javadoc")
 public class SonicScrewdriver extends Item {
-	public final SonicColour colour;
-	public enum SonicColour {
-		BLUE("blue"), GREEN("green");
+	public final SonicType sonicType;
+	public static enum SonicType {
+		TENTH("ten"), ELEVEN("eleven"), EIGHT("eight"), FOUR("four");
 		// Below is the stuff that makes this bit cool
-		private final String colour;
-		private SonicColour(String col) {
-			colour = col;
+		private final String type;
+		private SonicType(String type) {
+			this.type = type;
 		}
 		@Override
 		public final String toString() {
-			return colour.toLowerCase();
+			return this.type.toLowerCase();
 		}
 	}
-	public SonicScrewdriver(int id) {
-		this(id, SonicColour.GREEN);
-	}
-	public SonicScrewdriver(int id, SonicColour col) {
+	public SonicScrewdriver(int id, SonicType type) {
 		super(id);
 		setMaxStackSize(1);
 		setCreativeTab(CreativeTabs.tabTools);
 		setUnlocalizedName("gtweaks.sonic.sonicprobe");
-		setTextureName("gtweaks:sonic-" + col);
-		colour = col;
+		setTextureName("gtweaks:sonic-" + type);
+		this.sonicType = type;
 	}
 	@Override
 	public void addInformation(ItemStack is, EntityPlayer player, List l, boolean B) {
-		SonicScrewdriver sonic = (SonicScrewdriver) is.getItem();
-		if (sonic.colour == SonicColour.BLUE) {
-			l.add("The tenth Doctor's sonic screwdriver");
-		}
-		else if (sonic.colour == SonicColour.GREEN) {
-			l.add("The eleventh Doctor's sonic screwdriver");
-		}
-		else {
-			l.add("A brand new sonic screwdriver");
-		}
-		l.add("");
 		l.add("Does too many things to explain here.");
 		l.add("Use the HELP-SONIC book from the GT Tomes module!");
 		l.add("To get it, hold a book and use this chat command:");
@@ -72,7 +59,7 @@ public class SonicScrewdriver extends Item {
 	}
 	@Override
 	public EnumAction getItemUseAction(ItemStack par1ItemStack) {
-		return EnumAction.bow;
+		return EnumAction.none;
 	}
 	@Override
 	public EnumRarity getRarity(ItemStack is) {
@@ -102,8 +89,8 @@ public class SonicScrewdriver extends Item {
 		tag.setBoolean("speedy", (GTSonic.speedBoost > 0 ? true : false));
 	}
 	@Override
-	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int par4, int par5, int par6, int par7, float par8, float par9, float par10) {
-		return false;
+	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int cX, int cY, int cZ, int blockSideId, float hitX, float hitY, float hitZ) {
+		return true;
 	}
 	@Override
 	public boolean onItemUseFirst(ItemStack stack, EntityPlayer player, World world, int cX, int cY, int cZ, int blockSideId, float hitX, float hitY, float hitZ) {
@@ -113,7 +100,7 @@ public class SonicScrewdriver extends Item {
 		final int target = world.getBlockId(x, y, z);
 		final Block blockTarget = Block.blocksList[target];
 		final EnumBlockSide side = EnumBlockSide.getByInt(blockSideId);
-		// Purpose: open doors
+		// Purpose: toggle doors
 		if (blockTarget instanceof BlockDoor) {
 			if ( !world.isRemote) {
 				if ((world.getBlockId(x, y - 1, z) == target) && ((world.getBlockMetadata(x, y, z) & 8) != 0)) {

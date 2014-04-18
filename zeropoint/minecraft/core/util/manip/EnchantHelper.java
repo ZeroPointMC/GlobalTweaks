@@ -1,4 +1,4 @@
-package zeropoint.minecraft.core.util;
+package zeropoint.minecraft.core.util.manip;
 
 
 import java.util.HashMap;
@@ -8,6 +8,7 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.item.ItemStack;
 
 
+//TODO: write Javadoc
 public class EnchantHelper extends EnchantmentHelper {
 	// Section: multi-enchantment modifications
 	public static void addEnchantments(Map<Integer, Integer> enchants, ItemStack stack) {

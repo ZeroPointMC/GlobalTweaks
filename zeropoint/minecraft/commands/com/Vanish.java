@@ -7,6 +7,11 @@ import zeropoint.minecraft.core.GTBaseCommand;
 import zeropoint.minecraft.core.util.ChatMsg;
 
 
+/**
+ * [/vanish [on|off|toggle]] Control invisibility
+ * 
+ * @author Zero Point
+ */
 public class Vanish extends GTBaseCommand {
 	public String getCommandName() {
 		return "vanish";

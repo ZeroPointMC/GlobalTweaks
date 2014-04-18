@@ -8,6 +8,11 @@ import zeropoint.minecraft.core.GTBaseCommand;
 import zeropoint.minecraft.core.util.ChatMsg;
 
 
+/**
+ * [/gtweak list] List commands registered with GlobalTweaks|Commands
+ * 
+ * @author Zero Point
+ */
 public class Gtweak extends GTBaseCommand {
 	public String getCommandName() {
 		return "gtweak";

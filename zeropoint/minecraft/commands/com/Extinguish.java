@@ -6,17 +6,14 @@ import net.minecraft.entity.player.EntityPlayer;
 import zeropoint.minecraft.core.GTBaseCommand;
 
 
+/**
+ * [/extinguish] Put out player fire
+ * 
+ * @author Zero Point
+ */
 public class Extinguish extends GTBaseCommand {
-	private static String cmd = "extinguish";
-	public Extinguish() {
-		super();
-	}
-	public Extinguish(String name) {
-		super();
-		cmd = name;
-	}
 	public String getCommandName() {
-		return cmd;
+		return "extinguish";
 	}
 	@Override
 	public String getCommandHelp(ICommandSender src) {

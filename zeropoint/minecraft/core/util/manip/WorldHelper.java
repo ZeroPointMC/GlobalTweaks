@@ -6,6 +6,7 @@ import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.world.Explosion;
 
 
+//TODO: write Javadoc
 public class WorldHelper {
 	public static Explosion explodeAt(Entity target, float strength, boolean grief) {
 		return target.worldObj.createExplosion(target, target.posX, target.posY, target.posZ, strength, grief);

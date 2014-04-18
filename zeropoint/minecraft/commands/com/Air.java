@@ -6,6 +6,11 @@ import net.minecraft.entity.player.EntityPlayer;
 import zeropoint.minecraft.core.GTBaseCommand;
 
 
+/**
+ * [/air] Refills the player's air supply
+ * 
+ * @author Zero Point
+ */
 public class Air extends GTBaseCommand {
 	public String getCommandName() {
 		return "air";

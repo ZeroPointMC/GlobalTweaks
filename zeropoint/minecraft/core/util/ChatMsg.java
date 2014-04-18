@@ -6,6 +6,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatMessageComponent;
 
 
+//TODO: write Javadoc
 public class ChatMsg {
 	public static final String BLACK = "§0";
 	public static final String INDIGO = "§1";
@@ -31,20 +32,20 @@ public class ChatMsg {
 	public static final String NONE = "§r";
 	protected ChatMessageComponent content;
 	public ChatMsg(String msg) {
-		content = new ChatMessageComponent();
-		content.addText(msg);
+		this.content = new ChatMessageComponent();
+		this.content.addText(msg);
 	}
 	public ChatMsg(ChatMessageComponent msg) {
-		content = new ChatMessageComponent(msg);
+		this.content = new ChatMessageComponent(msg);
 	}
 	@Override
 	public String toString() {
-		return content.toString();
+		return this.content.toString();
 	}
 	public void send(ICommandSender target) {
-		target.sendChatToPlayer(content);
+		target.sendChatToPlayer(this.content);
 	}
 	public void send(EntityPlayer target) {
-		target.addChatMessage(toString());
+		target.addChatMessage(this.toString());
 	}
 }

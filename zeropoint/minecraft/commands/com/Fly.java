@@ -9,6 +9,11 @@ import zeropoint.minecraft.core.GTBaseCommand;
 import zeropoint.minecraft.core.util.ChatMsg;
 
 
+/**
+ * [/fly [on|off]] Toggle player flight capability
+ * 
+ * @author Zero Point
+ */
 public class Fly extends GTBaseCommand {
 	@Override
 	public void execute(ICommandSender src, EntityPlayer player, String[] args) {

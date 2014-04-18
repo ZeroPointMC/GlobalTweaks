@@ -9,7 +9,18 @@ import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.Mod;
 
 
+/**
+ * Retrieve and configure a Logger in one go
+ * 
+ * @author Zero Point
+ */
 public class Log {
+	/**
+	 * Get a logger for the Mod owning the caller
+	 * 
+	 * @return the configured Logger
+	 * @deprecated Should use getLogger(String name) instead.
+	 */
 	@Deprecated
 	public static final Logger getLogger() {
 		try {
@@ -21,9 +32,25 @@ public class Log {
 			return null;
 		}
 	}
+	/**
+	 * Get a Logger for the given name
+	 * 
+	 * @param name
+	 *            - the name of the Logger
+	 * @return the configured Logger
+	 */
 	public static final Logger getLogger(String name) {
 		return getLogger(name, null);
 	}
+	/**
+	 * Get a Logger for the given name, using the given resource bundle
+	 * 
+	 * @param name
+	 *            - the name of the Logger
+	 * @param resBundle
+	 *            - the resource bundle to use for the Logger
+	 * @return the configured Logger
+	 */
 	public static final Logger getLogger(String name, String resBundle) {
 		FMLLog.makeLog(name);
 		Logger logger;

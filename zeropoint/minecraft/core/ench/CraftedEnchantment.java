@@ -9,6 +9,7 @@ import net.minecraft.world.World;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 
+// TODO: write Javadoc
 public abstract class CraftedEnchantment extends BasicEnchantment implements IRecipe {
 	protected CraftedEnchantment(int par1, int par2, EnumEnchantmentType par3EnumEnchantmentType) {
 		super(par1, par2, par3EnumEnchantmentType);

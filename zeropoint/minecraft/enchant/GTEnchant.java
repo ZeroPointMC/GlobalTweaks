@@ -16,8 +16,10 @@ import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
+import cpw.mods.fml.common.registry.LanguageRegistry;
 
 
+@SuppressWarnings("javadoc")
 @Mod(modid = GTEnchant.modid, name = GTEnchant.name, version = GTEnchant.version, dependencies = "required-after:gtweaks-core")
 @NetworkMod(clientSideRequired = true, serverSideRequired = false)
 public class GTEnchant {
@@ -27,8 +29,9 @@ public class GTEnchant {
 	private static final Map<String, Enchantment> enchants = new HashMap<String, Enchantment>();
 	private static Config cfg;
 	private static final Logger LOG = Log.getLogger(name);
+	@SuppressWarnings("unused")
 	@EventHandler
-	public void init(FMLInitializationEvent event) {
+	public static void init(FMLInitializationEvent event) {
 		cfg = GTCore.getConfig();
 		if ( !GTCore.Modules.enchantEnabled()) {
 			LOG.warning("Module disabled!");
@@ -82,5 +85,48 @@ public class GTEnchant {
 			return enchants.get(enchName);
 		}
 		return null;
+	}
+	public static final void extendLevelLocalization() {
+		// From 11 to 50! Woo~!
+		LanguageRegistry.instance().addStringLocalization("enchantment.level.11", "XI");
+		LanguageRegistry.instance().addStringLocalization("enchantment.level.12", "XII");
+		LanguageRegistry.instance().addStringLocalization("enchantment.level.13", "XIII");
+		LanguageRegistry.instance().addStringLocalization("enchantment.level.14", "XIV");
+		LanguageRegistry.instance().addStringLocalization("enchantment.level.15", "XV");
+		LanguageRegistry.instance().addStringLocalization("enchantment.level.16", "XVI");
+		LanguageRegistry.instance().addStringLocalization("enchantment.level.17", "XVII");
+		LanguageRegistry.instance().addStringLocalization("enchantment.level.18", "XVIII");
+		LanguageRegistry.instance().addStringLocalization("enchantment.level.19", "XIX");
+		LanguageRegistry.instance().addStringLocalization("enchantment.level.20", "XX");
+		LanguageRegistry.instance().addStringLocalization("enchantment.level.21", "XXI");
+		LanguageRegistry.instance().addStringLocalization("enchantment.level.22", "XXII");
+		LanguageRegistry.instance().addStringLocalization("enchantment.level.23", "XXIII");
+		LanguageRegistry.instance().addStringLocalization("enchantment.level.24", "XXIV");
+		LanguageRegistry.instance().addStringLocalization("enchantment.level.25", "XXV");
+		LanguageRegistry.instance().addStringLocalization("enchantment.level.26", "XXVI");
+		LanguageRegistry.instance().addStringLocalization("enchantment.level.27", "XXVII");
+		LanguageRegistry.instance().addStringLocalization("enchantment.level.28", "XXVIII");
+		LanguageRegistry.instance().addStringLocalization("enchantment.level.29", "XXIX");
+		LanguageRegistry.instance().addStringLocalization("enchantment.level.30", "XXX");
+		LanguageRegistry.instance().addStringLocalization("enchantment.level.31", "XXXI");
+		LanguageRegistry.instance().addStringLocalization("enchantment.level.32", "XXXII");
+		LanguageRegistry.instance().addStringLocalization("enchantment.level.33", "XXXIII");
+		LanguageRegistry.instance().addStringLocalization("enchantment.level.34", "XXXIV");
+		LanguageRegistry.instance().addStringLocalization("enchantment.level.35", "XXXV");
+		LanguageRegistry.instance().addStringLocalization("enchantment.level.36", "XXXVI");
+		LanguageRegistry.instance().addStringLocalization("enchantment.level.37", "XXXVII");
+		LanguageRegistry.instance().addStringLocalization("enchantment.level.38", "XXXVIII");
+		LanguageRegistry.instance().addStringLocalization("enchantment.level.39", "XXXIX");
+		LanguageRegistry.instance().addStringLocalization("enchantment.level.40", "XL");
+		LanguageRegistry.instance().addStringLocalization("enchantment.level.41", "XLI");
+		LanguageRegistry.instance().addStringLocalization("enchantment.level.42", "XLII");
+		LanguageRegistry.instance().addStringLocalization("enchantment.level.43", "XLIII");
+		LanguageRegistry.instance().addStringLocalization("enchantment.level.44", "XLIV");
+		LanguageRegistry.instance().addStringLocalization("enchantment.level.45", "XLV");
+		LanguageRegistry.instance().addStringLocalization("enchantment.level.46", "XLVI");
+		LanguageRegistry.instance().addStringLocalization("enchantment.level.47", "XLVII");
+		LanguageRegistry.instance().addStringLocalization("enchantment.level.48", "XLVIII");
+		LanguageRegistry.instance().addStringLocalization("enchantment.level.49", "XLIX");
+		LanguageRegistry.instance().addStringLocalization("enchantment.level.50", "L");
 	}
 }

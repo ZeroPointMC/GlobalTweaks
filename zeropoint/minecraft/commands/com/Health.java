@@ -8,6 +8,11 @@ import zeropoint.minecraft.core.GTCore;
 import zeropoint.minecraft.core.util.manip.PlayerHelper;
 
 
+/**
+ * [/health [&lt;amount>]] Set user's health
+ * 
+ * @author Zero Point
+ */
 public class Health extends GTBaseCommand {
 	public String getCommandName() {
 		return "health";

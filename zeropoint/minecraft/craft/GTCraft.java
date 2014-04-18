@@ -18,6 +18,7 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 
+@SuppressWarnings("javadoc")
 @Mod(modid = GTCraft.modid, name = GTCraft.name, version = GTCraft.version, dependencies = "required-after:gtweaks-core")
 public class GTCraft {
 	public static final String modid = "gtweaks-craft";
@@ -27,8 +28,9 @@ public class GTCraft {
 	private static final Logger LOG = Log.getLogger(name);
 	private static boolean enableHook = false;
 	private static boolean enableDebug = false;
+	@SuppressWarnings("unused")
 	@EventHandler
-	public void init(FMLInitializationEvent event) {
+	public static void init(FMLInitializationEvent event) {
 		cfg = GTCore.getConfig();
 		if ( !GTCore.Modules.craftEnabled()) {
 			LOG.warning("Module disabled!");
@@ -52,6 +54,7 @@ public class GTCraft {
 	private static final class Recipes {
 		private static final class Hook implements IRecipe {
 			private static final Logger l = Log.getLogger(name + " DebugHook");
+			@SuppressWarnings("synthetic-access")
 			public static void debug(InventoryCrafting grid) {
 				if ( !GTCraft.enableDebug && !GTCraft.enableHook) {
 					return;
@@ -79,6 +82,7 @@ public class GTCraft {
 				return new ItemStack(Item.appleGold);
 			}
 		}
+		@SuppressWarnings("synthetic-access")
 		public static void hook() {
 			if ( !GTCraft.enableHook) {
 				return;
@@ -88,6 +92,7 @@ public class GTCraft {
 			Hook.l.severe("Console will be spammed with crafting grid contents on change!");
 			Hook.l.severe("This should be disabled as soon as possible!");
 		}
+		@SuppressWarnings("synthetic-access")
 		public static void bedrock() {
 			if (cfg.bool("recipes", "bedrock", false, "Enable crafting of bedrock from end stone (x4), obsidian (x4), and diamond block (x1)?")) {
 				LOG.info("Registering bedrock crafting recipe");
@@ -97,6 +102,7 @@ public class GTCraft {
 				LOG.info("Bedrock crafting recipe disabled");
 			}
 		}
+		@SuppressWarnings("synthetic-access")
 		public static void endPortalFrame() {
 			if (cfg.bool("recipes", "endPortalFrame", false, "Enable crafting of end portal frames from obsidian (x4), diamond (x2), and end stone (x1)?")) {
 				LOG.info("Registering end portal frame crafting recipe");
@@ -106,6 +112,7 @@ public class GTCraft {
 				LOG.info("End portal frame crafting recipe disabled");
 			}
 		}
+		@SuppressWarnings("synthetic-access")
 		public static void netherStar() {
 			if (cfg.bool("recipes", "netherStar", false, "Enable crafting of nether stars from wither skull (x2), diamond (x2), gold block (x4), and obsidian (x1)?")) {
 				LOG.info("Registering nether star crafting recipe");
