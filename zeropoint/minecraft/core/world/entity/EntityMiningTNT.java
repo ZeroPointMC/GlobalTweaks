@@ -7,11 +7,31 @@ import net.minecraft.world.World;
 import zeropoint.minecraft.core.world.MiningExplosion;
 
 
-//TODO: write Javadoc
+/**
+ * A TNT entity that creates a {@link MiningExplosion}
+ * 
+ * @author Zero Point
+ */
 public class EntityMiningTNT extends EntityTNTPrimed {
+	/**
+	 * @param world
+	 *            - the world to spawn into
+	 */
 	public EntityMiningTNT(World world) {
 		super(world);
 	}
+	/**
+	 * @param world
+	 *            - the world to spawn into
+	 * @param x
+	 *            - the x coord to spawn at
+	 * @param y
+	 *            - the y coord to spawn at
+	 * @param z
+	 *            - the z coord to spawn at
+	 * @param pyro
+	 *            - the entity who ignited us
+	 */
 	public EntityMiningTNT(World world, double x, double y, double z, EntityLivingBase pyro) {
 		super(world, x, y, z, pyro);
 	}
@@ -45,6 +65,9 @@ public class EntityMiningTNT extends EntityTNTPrimed {
 			this.worldObj.spawnParticle("smoke", this.posX, this.posY + 0.5D, this.posZ, 0.0D, 0.0D, 0.0D);
 		}
 	}
+	/**
+	 * Set off the explosion
+	 */
 	protected void explode() {
 		MiningExplosion boom = new MiningExplosion(this.worldObj, this, this.posX, this.posY, this.posZ, 32.0F);
 		boom.isFlaming = false;

@@ -9,11 +9,26 @@ import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
 
-//TODO: write Javadoc
+/**
+ * A basic enchantment, applied at an enchanting table, should extend this class.
+ * 
+ * @author Zero Point
+ */
 public abstract class BasicEnchantment extends Enchantment {
+	/**
+	 * If false, the "translated name" will not include a number; as in "Enchantment" instead of "Enchantment I"
+	 */
 	protected boolean hasLevels = true;
-	protected BasicEnchantment(int par1, int par2, EnumEnchantmentType par3EnumEnchantmentType) {
-		super(par1, par2, par3EnumEnchantmentType);
+	/**
+	 * @param id
+	 *            - the enchantment ID
+	 * @param weight
+	 *            - the weight of the enchantment; the chance for it to be applied at a table
+	 * @param type
+	 *            - the {@link EnumEnchantmentType} of the enchantment
+	 */
+	protected BasicEnchantment(int id, int weight, EnumEnchantmentType type) {
+		super(id, weight, type);
 	}
 	@Override
 	public String getTranslatedName(int level) {
@@ -40,14 +55,29 @@ public abstract class BasicEnchantment extends Enchantment {
 	public abstract boolean canApplyAtEnchantingTable(ItemStack stack);
 	@Override
 	public abstract boolean canApply(ItemStack stack);
+	/**
+	 * Do whatever final bits are needed to make the enchantment usable
+	 */
 	public void initialize() {
 		registerLocalization();
 		registerAsHandler();
 	}
+	/**
+	 * Register the localization with Minecraft, so you get "Enchantment Name I" instead "enchant.myenchant.name I"
+	 */
 	public abstract void registerLocalization();
+	/**
+	 * Injects the translation for the enchantment into the game
+	 * 
+	 * @param readableName
+	 *            - the human readable name of the enchantment
+	 */
 	protected final void setHumanReadableName(String readableName) {
 		LanguageRegistry.instance().addStringLocalization(this.getName(), readableName);
 	}
+	/**
+	 * The enchantment should provide its own event handler. This method registers it with Minecraft Forge.
+	 */
 	public void registerAsHandler() {
 		MinecraftForge.EVENT_BUS.register(this);
 	}

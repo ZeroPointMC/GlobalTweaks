@@ -15,13 +15,39 @@ import net.minecraft.world.World;
 // This entire class was created just so I could change ONE line.
 // Also, it's only 'safe' in the sense that it drops everything.
 // It'll still kill things. I can't remove that bit. Yet.
-//TODO: write Javadoc
+/**
+ * An explosion designed to drop ALL items from destroyed blocks
+ * 
+ * @author Zero Point
+ */
 public class MiningExplosion extends Explosion {
+	/**
+	 * The world where the explosion is
+	 */
 	protected World worldObj;
+	/**
+	 * The random number generator for the explosion
+	 */
 	protected Random explosionRNG = new Random();
+	/**
+	 * Create a new MiningExplosion
+	 * 
+	 * @param world
+	 *            - the world to blow up
+	 * @param corpseToBe
+	 *            - the entity that started the explosion
+	 * @param x
+	 *            - the x coord of the boom
+	 * @param y
+	 *            - the y coord of the explosion
+	 * @param z
+	 *            - the z coord to blow up at
+	 * @param strength
+	 *            - how much damage to do
+	 */
 	public MiningExplosion(World world, Entity corpseToBe, double x, double y, double z, float strength) {
 		super(world, corpseToBe, x, y, z, strength);
-		worldObj = world;
+		this.worldObj = world;
 	}
 	@Override
 	public void doExplosionB(boolean par1) {
