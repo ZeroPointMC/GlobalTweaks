@@ -18,6 +18,7 @@ import zeropoint.minecraft.core.util.WrittenBookTag;
  * @author Zero Point
  */
 public class Book extends GTBaseCommand {
+	@Override
 	public String getCommandName() {
 		return "book";
 	}

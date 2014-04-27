@@ -14,16 +14,17 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import zeropoint.minecraft.core.util.ChatMsg;
+import zeropoint.minecraft.core.util.manip.InventoryHelper;
 
 
 @SuppressWarnings("javadoc")
 public class SonicBlaster extends Item {
 	public SonicBlaster(int id) {
 		super(id);
-		setMaxStackSize(1);
-		setCreativeTab(CreativeTabs.tabTools);
-		setUnlocalizedName("gtweaks.sonic.sonicblaster");
-		setTextureName("gtweaks:blaster");
+		this.setMaxStackSize(1);
+		this.setCreativeTab(CreativeTabs.tabTools);
+		this.setUnlocalizedName("gtweaks.sonic.sonicblaster");
+		this.setTextureName("gtweaks:blaster");
 	}
 	@Override
 	public void addInformation(ItemStack is, EntityPlayer player, List l, boolean B) {
@@ -52,6 +53,11 @@ public class SonicBlaster extends Item {
 			return false;
 		}
 		if ( !world.isRemote) {
+			if ( !player.capabilities.isCreativeMode && !useFuel(player)) {
+				new ChatMsg(ChatMsg.RED + "Your sonic blaster is out of fuel!").send(player);
+				new ChatMsg(ChatMsg.GRAY + "You need " + GTSonic.blasterFuelCount + " of " + GTSonic.blasterFuelName + ChatMsg.GRAY + " to use your blaster").send(player);
+				return false;
+			}
 			final int id = world.getBlockId(x, y, z);
 			final Block hit = Block.blocksList[id];
 			if (hit == null) {
@@ -74,6 +80,19 @@ public class SonicBlaster extends Item {
 		player.inventory.onInventoryChanged();
 		player.inventoryContainer.detectAndSendChanges();
 		return world.isRemote ? false : true;
+	}
+	/**
+	 * Consume one unit of fuel from the player inventory
+	 * 
+	 * @param player
+	 *            the player who used the sonic blaster
+	 * @return <code>true</code> if fuel was consumed, <code>false</code> to cancel action
+	 */
+	protected static boolean useFuel(EntityPlayer player) {
+		if ((GTSonic.blasterFuelID + GTSonic.blasterFuelCount) < 1) {
+			return true;
+		}
+		return InventoryHelper.consumeItem(player.inventory, GTSonic.blasterFuelID, GTSonic.blasterFuelMeta, 1);
 	}
 	private static void doDrops(World world, int cX, int cY, int cZ, Block hit, EntityPlayer player) {
 		final int x = cX;

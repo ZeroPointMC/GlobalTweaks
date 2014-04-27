@@ -35,7 +35,7 @@ public class Fly extends GTBaseCommand {
 				tag.setBoolean("mayfly", !mayfly);
 			}
 			else {
-				sendUsageMessage(src);
+				this.sendUsageMessage(src);
 				return;
 			}
 		}
@@ -57,6 +57,7 @@ public class Fly extends GTBaseCommand {
 	public String getCommandHelp(ICommandSender src) {
 		return "Control player's ability to fly";
 	}
+	@Override
 	public String getCommandName() {
 		return "fly";
 	}

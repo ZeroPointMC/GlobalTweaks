@@ -14,6 +14,7 @@ import zeropoint.minecraft.core.util.manip.PlayerHelper;
  * @author Zero Point
  */
 public class Repair extends GTBaseCommand {
+	@Override
 	public String getCommandName() {
 		return "repair";
 	}
@@ -49,7 +50,7 @@ public class Repair extends GTBaseCommand {
 				PlayerHelper.repairAll(player);
 			}
 			else {
-				new ChatMsg(getCommandUsage(src)).send(src);
+				new ChatMsg(this.getCommandUsage(src)).send(src);
 			}
 		}
 		else {

@@ -14,6 +14,7 @@ import zeropoint.minecraft.core.util.ChatMsg;
  * @author Zero Point
  */
 public class God extends GTBaseCommand {
+	@Override
 	public String getCommandName() {
 		return "god";
 	}
@@ -46,7 +47,7 @@ public class God extends GTBaseCommand {
 				plr.setBoolean("Invulnerable", false);
 			}
 			else {
-				sendUsageMessage(src);
+				this.sendUsageMessage(src);
 				return;
 			}
 		}

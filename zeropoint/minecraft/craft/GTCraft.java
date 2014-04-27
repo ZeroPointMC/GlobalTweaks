@@ -68,16 +68,20 @@ public class GTCraft {
 				}
 				l.info("END CRAFTING DEBUG HOOK OUTPUT");
 			}
+			@Override
 			public boolean matches(InventoryCrafting grid, World world) {
 				debug(grid);
 				return false;
 			}
+			@Override
 			public ItemStack getCraftingResult(InventoryCrafting grid) {
 				return null;
 			}
+			@Override
 			public int getRecipeSize() {
 				return 9;
 			}
+			@Override
 			public ItemStack getRecipeOutput() {
 				return new ItemStack(Item.appleGold);
 			}

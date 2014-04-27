@@ -14,6 +14,7 @@ import zeropoint.minecraft.core.util.manip.PlayerHelper;
  * @author Zero Point
  */
 public class Health extends GTBaseCommand {
+	@Override
 	public String getCommandName() {
 		return "health";
 	}

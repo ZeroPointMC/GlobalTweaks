@@ -14,6 +14,7 @@ import zeropoint.minecraft.core.util.ChatMsg;
  * @author Zero Point
  */
 public class Halp extends GTBaseCommand {
+	@Override
 	public String getCommandName() {
 		return "halp";
 	}
@@ -28,7 +29,7 @@ public class Halp extends GTBaseCommand {
 	@Override
 	public void execute(ICommandSender src, EntityPlayer player, String[] args) {
 		if (args.length < 0) {
-			sendUsageMessage(src);
+			this.sendUsageMessage(src);
 		}
 		else {
 			GTBaseCommand cmd = GTCommands.getCommand(args[0]);

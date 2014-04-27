@@ -13,6 +13,7 @@ import zeropoint.minecraft.core.util.ChatMsg;
  * @author Zero Point
  */
 public class Vanish extends GTBaseCommand {
+	@Override
 	public String getCommandName() {
 		return "vanish";
 	}
@@ -42,7 +43,7 @@ public class Vanish extends GTBaseCommand {
 				player.setInvisible( !player.isInvisible());
 			}
 			else {
-				new ChatMsg(getCommandUsage(src)).send(src);
+				new ChatMsg(this.getCommandUsage(src)).send(src);
 			}
 		}
 		else {

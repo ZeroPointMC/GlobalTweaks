@@ -95,7 +95,7 @@ public class GTCore {
 	 */
 	@SuppressWarnings("synthetic-access")
 	protected static void initConf() {
-		config = new Configuration(new File("config/" + GTCore.name + ".cfg"));
+		config = new Configuration(new File("config/GlobalTweaks.cfg"));
 		cfg = new Config(config);
 		bronyModeEnabled = cfg.bool("core", "bronyMode", bronyModeEnabled, "Do you like ponies?");
 		Modules.commands = cfg.bool("enable", "commands", true, "Enable the GlobalTweaks|Commands module?");

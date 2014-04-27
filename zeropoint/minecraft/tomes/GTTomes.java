@@ -48,6 +48,7 @@ public class GTTomes {
 	private static final Logger LOG = Log.getLogger(name);
 	private static Config cfg;
 	public static class CommandTome extends GTBaseCommand {
+		@Override
 		public String getCommandName() {
 			return "tome";
 		}
@@ -82,6 +83,8 @@ public class GTTomes {
 				if (tmp.stackSize == 1) {
 					tmp.itemID = Item.writtenBook.itemID;
 					// new ChatMsg("You change your book into a tome!").send(player);
+					player.inventory.onInventoryChanged();
+					player.inventoryContainer.detectAndSendChanges();
 				}
 			}
 			// Purpose: require the player now be holding a written book
@@ -117,6 +120,8 @@ public class GTTomes {
 					new ChatMsg(e.toString()).send(player);
 					return;
 				}
+				player.inventory.onInventoryChanged();
+				player.inventoryContainer.detectAndSendChanges();
 			}
 			// Purpose: save a tome to disk
 			else if (args[0].equalsIgnoreCase("save")) {
@@ -355,6 +360,8 @@ public class GTTomes {
 		help.println("Otherwise, it will just toggle states.");
 		help.println("--PAGEBREAK--");
 		help.println("Please note that sonic-ing " + ChatMsg.ITALIC + "active" + ChatMsg.BLACK + " redstone lamps is buggy and won't work yet. I'm working on fixing it.");
+		help.println("--PAGEBREAK--");
+		help.println("Also, I'm aware that the Sonic Screwdriver speed boost appears to be broken. I have no idea why, but I do have a metaphorical sledgehammer which I am using to scare my code into working again.");
 		help.close();
 		LOG.info("Wrote help file " + fileName);
 	}

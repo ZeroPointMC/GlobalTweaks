@@ -39,7 +39,7 @@ public abstract class CraftedEnchantment extends BasicEnchantment implements IRe
 	@Override
 	public void initialize() {
 		super.initialize();
-		registerRecipe();
+		this.registerRecipe();
 	}
 	/**
 	 * Find the tool that should be enchanted
@@ -57,9 +57,11 @@ public abstract class CraftedEnchantment extends BasicEnchantment implements IRe
 	 * @return the strength for the enchantment
 	 */
 	public abstract int getEnchLevel(InventoryCrafting grid);
+	@Override
 	public boolean matches(InventoryCrafting grid, World world) {
-		return getCraftingResult(grid) == null ? false : true;
+		return this.getCraftingResult(grid) == null ? false : true;
 	}
+	@Override
 	public ItemStack getRecipeOutput() {
 		return null;
 	}

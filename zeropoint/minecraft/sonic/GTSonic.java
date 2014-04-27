@@ -1,11 +1,15 @@
 package zeropoint.minecraft.sonic;
 
 
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import zeropoint.core.io.file.OutputFile;
 import zeropoint.core.math.MathUtil;
 import zeropoint.minecraft.core.Config;
 import zeropoint.minecraft.core.GTCore;
@@ -27,6 +31,14 @@ public class GTSonic {
 	public static final String version = "release";
 	public static double speedBoost;
 	public static int maxCreatureHealPercent;
+	public static int blasterFuelID = 0;
+	public static int blasterFuelMeta = 0;
+	public static int blasterFuelCount = 0;
+	public static String blasterFuelName = "";
+	public static int vortexFuelID = 0;
+	public static int vortexFuelMeta = 0;
+	public static int vortexFuelCount = 0;
+	public static String vortexFuelName = "";
 	protected SonicScrewdriver sonic11;
 	protected SonicScrewdriver sonic10;
 	protected SonicScrewdriver sonic8;
@@ -45,6 +57,57 @@ public class GTSonic {
 			LOG.warning("Module disabled!");
 			return;
 		}
+		OutputFile fuels = new OutputFile("config/gtweaks/commonFuels.txt");
+		new File(fuels.path()).getParentFile().mkdirs();
+		try {
+			fuels.create();
+		}
+		catch (IOException e) {
+			LOG.log(Level.SEVERE, "Cannot create common fuel suggestions file", e);
+		}
+		fuels.println("Common fuels:");
+		fuels.println("Lapis Lazuli - 351:4");
+		fuels.println("Redstone - 331:0");
+		fuels.println("Glowstone - 348:0");
+		fuels.println("Ender pearl - 368:0");
+		fuels.println("Blaze rod - 369:0");
+		fuels.println("Ghast tear - 370:0");
+		fuels.println("Gold nugget - 371:0");
+		fuels.println("Blaze powder - 377:0");
+		fuels.println("Coal - 263:0");
+		fuels.println("Charcoal - 263:1");
+		fuels.println("Gunpowder - 289:0");
+		fuels.println("Fire charge - 385:0");
+		fuels.println("Emerald - 388:0");
+		fuels.close();
+		this.blasterFuelID = cfg.integer("sonic.fuel", "blaster.id", 348, "The ID of the item to consume when using the Sonic Blaster\nSet to 0 to disable fuel");
+		this.blasterFuelMeta = cfg.integer("sonic.fuel", "blaster.meta", 0, "The metadata of the item to consume when using the Sonic Blaster\nSee gtweaks/commonFuels.txt for items that are often used as fuel");
+		try {
+			this.blasterFuelName = Item.itemsList[this.blasterFuelID].getItemDisplayName(new ItemStack(this.blasterFuelID, 1, this.blasterFuelMeta));
+			this.blasterFuelCount = cfg.integer("sonic.fuel", "blaster.count", 1, "The number of fuel items to consume when using the Sonic Blaster\nSet to 0 to disable fuel");
+		}
+		catch (ArrayIndexOutOfBoundsException | NullPointerException e) {
+			this.blasterFuelID = 0;
+			this.blasterFuelMeta = 0;
+			this.blasterFuelName = "";
+			if (e instanceof NullPointerException) {
+				LOG.log(Level.WARNING, "Unable to determine fuel item for sonic blaster", e);
+			}
+		}
+		this.vortexFuelID = cfg.integer("sonic.fuel", "vortex.id", 368, "The ID of the item to consume when using the Vortex Manipulator\nSet to 0 to disable fuel");
+		this.vortexFuelMeta = cfg.integer("sonic.fuel", "vortex.meta", 0, "The metadata of the item to consume when using the Vortex Manipulator\nSee gtweaks/commonFuels.txt for items that are often used as fuel");
+		try {
+			this.vortexFuelName = Item.itemsList[this.vortexFuelID].getItemDisplayName(new ItemStack(this.vortexFuelID, 1, this.vortexFuelMeta));
+			this.vortexFuelCount = cfg.integer("sonic.fuel", "vortex.count", 1, "The number of fuel items to consume when using the Vortex Manipulator\nSet to 0 to disable fuel");
+		}
+		catch (ArrayIndexOutOfBoundsException | NullPointerException e) {
+			this.vortexFuelID = 0;
+			this.vortexFuelMeta = 0;
+			this.vortexFuelName = "";
+			if (e instanceof NullPointerException) {
+				LOG.log(Level.WARNING, "Unable to determine fuel item for vortex manipulator", e);
+			}
+		}
 		redstoneLampActiveId = cfg.block("sonicRedstoneLamp", 2742, "The ID of the always-on redstone lamp");
 		redstoneLampInactiveId = cfg.block("sonicRedstoneLampOff", 2743, "The ID of the always-off redstone lamp");
 		speedBoost = MathUtil.bound(cfg.decimal("sonic", "speedBoostPercentage", 0.5, "Must be between 0 and 1, inclusive"), 0, 1);
@@ -54,9 +117,9 @@ public class GTSonic {
 		this.sonic8 = new SonicScrewdriver(cfg.item("sonic", "sonicEight", 26044, "The eighth doctor's screwdriver"), SonicScrewdriver.SonicType.EIGHT);
 		this.sonic4 = new SonicScrewdriver(cfg.item("sonic", "sonicFour", 26045, "The fourth doctor's screwdriver"), SonicScrewdriver.SonicType.FOUR);
 		this.blaster = new SonicBlaster(cfg.item("sonic", "sonicBlaster", 26046, "The sonic blaster (or 'squareness gun') used by Captain Jack Harkness"));
-		this.vortexManip = new VortexManipulator(cfg.item("sonic", "vorteManipulator", 26047, "The vortex manipulator used by Captain Jack Harkness"));
-		registerItems();
-		addRecipes();
+		this.vortexManip = new VortexManipulator(cfg.item("sonic", "vortexManipulator", 26047, "The vortex manipulator used by Captain Jack Harkness"));
+		this.registerItems();
+		this.addRecipes();
 	}
 	protected void registerItems() {
 		Block redstoneLampActive = new BlockRedstoneLamp(redstoneLampActiveId, true);
@@ -76,7 +139,7 @@ public class GTSonic {
 		GameRegistry.registerItem(this.blaster, "sonicBlaster");
 		LanguageRegistry.addName(this.blaster, "Sonic Blaster");
 		GameRegistry.registerItem(this.vortexManip, "vortexManipulator");
-		LanguageRegistry.addName(this.vortexManip, "Vortex Manipulator");
+		LanguageRegistry.addName(this.vortexManip, "Vortex Manipulator [NYI]");
 		LOG.info("Items/blocks registered");
 	}
 	protected void addRecipes() {

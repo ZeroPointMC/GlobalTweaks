@@ -12,6 +12,7 @@ import zeropoint.minecraft.core.GTBaseCommand;
  * @author Zero Point
  */
 public class Extinguish extends GTBaseCommand {
+	@Override
 	public String getCommandName() {
 		return "extinguish";
 	}

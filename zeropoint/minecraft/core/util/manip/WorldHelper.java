@@ -24,7 +24,7 @@ public class WorldHelper {
 	 * @return the {@link Explosion}
 	 */
 	public static Explosion explodeAt(Entity target, double strength, boolean grief) {
-		return explodeAt(target, (float) strength, grief);
+		return target.worldObj.createExplosion(target, target.posX, target.posY, target.posZ, (float) strength, grief);
 	}
 	/**
 	 * Hit an {@link Entity} with a lightning bolt

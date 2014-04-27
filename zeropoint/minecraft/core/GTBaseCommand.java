@@ -46,8 +46,9 @@ public abstract class GTBaseCommand extends CommandBase {
 	 *            - the arguments to the command
 	 */
 	abstract public void execute(ICommandSender src, EntityPlayer player, String[] args);
+	@Override
 	public String getCommandUsage(ICommandSender src) {
-		return getCommandNameSlash() + " " + getCommandArgs(src);
+		return this.getCommandNameSlash() + " " + this.getCommandArgs(src);
 	}
 	/**
 	 * @return <code>true</code> to indicate that this command should be registered by default, <code>false</code> otherwise
@@ -101,6 +102,7 @@ public abstract class GTBaseCommand extends CommandBase {
 	public final void sendUsageMessage(EntityPlayer target) {
 		new ChatMsg("Usage: " + this.getCommandUsageSlash()).send(target);
 	}
+	@Override
 	public final void processCommand(ICommandSender src, String[] args) {
 		try {
 			this.execute(src, GTCore.getPlayerEntity(src), args);

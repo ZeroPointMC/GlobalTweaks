@@ -13,6 +13,7 @@ import zeropoint.minecraft.core.util.manip.PlayerHelper;
  * @author Zero Point
  */
 public class Absorb extends GTBaseCommand {
+	@Override
 	public String getCommandName() {
 		return "absorb";
 	}
