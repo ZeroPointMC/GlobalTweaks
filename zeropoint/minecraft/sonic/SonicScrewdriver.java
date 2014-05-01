@@ -41,10 +41,10 @@ public class SonicScrewdriver extends Item {
 	}
 	public SonicScrewdriver(int id, SonicType type) {
 		super(id);
-		setMaxStackSize(1);
-		setCreativeTab(CreativeTabs.tabTools);
-		setUnlocalizedName("gtweaks.sonic.sonicprobe");
-		setTextureName("gtweaks:sonic-" + type);
+		this.setMaxStackSize(1);
+		this.setCreativeTab(CreativeTabs.tabTools);
+		this.setUnlocalizedName("gtweaks.sonic.sonicprobe");
+		this.setTextureName("gtweaks:sonic-" + type);
 		this.sonicType = type;
 	}
 	@Override
@@ -79,7 +79,6 @@ public class SonicScrewdriver extends Item {
 			speed.setDouble("Amount", GTSonic.speedBoost);
 			speed.setInteger("Operation", 2);
 			UUID id = UUID.fromString("4F3A9AB0-A88E-11E3-A5E2-0800200C9A66");
-			// UUID id = UUID.randomUUID();
 			speed.setLong("UUIDMost", id.getMostSignificantBits());
 			speed.setLong("UUIDLeast", id.getLeastSignificantBits());
 			attrmods.appendTag(speed);

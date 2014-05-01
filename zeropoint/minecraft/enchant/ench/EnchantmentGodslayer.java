@@ -23,8 +23,8 @@ import zeropoint.minecraft.enchant.GTEnchant;
 
 @SuppressWarnings("javadoc")
 public class EnchantmentGodslayer extends CraftedEnchantment {
-	public static final float DEF_DAM_BOSS = 200F;
-	public static final float DEF_DAM = 20F;
+	public static final float DEFAULT_DAMAGE_BASE = 10F;
+	public static final float DEFAULT_DAMAGE_BOSS_FACTOR = 15F;
 	public static final boolean DEF_SHAPE = true;
 	public static final boolean DEF_HARD = true;
 	public final float bossDamage;
@@ -32,23 +32,23 @@ public class EnchantmentGodslayer extends CraftedEnchantment {
 	public final boolean useShaped;
 	public final boolean hardMode;
 	public EnchantmentGodslayer(int id) {
-		this(id, DEF_DAM_BOSS);
+		this(id, DEFAULT_DAMAGE_BASE);
 	}
-	public EnchantmentGodslayer(int id, float bossDam) {
-		this(id, bossDam, DEF_DAM);
+	public EnchantmentGodslayer(int id, float damageBase) {
+		this(id, damageBase, DEFAULT_DAMAGE_BOSS_FACTOR);
 	}
-	public EnchantmentGodslayer(int id, float bossDam, float dam) {
-		this(id, bossDam, dam, DEF_SHAPE);
+	public EnchantmentGodslayer(int id, float damageBase, float bossFactor) {
+		this(id, damageBase, bossFactor, DEF_SHAPE);
 	}
-	public EnchantmentGodslayer(int id, float bossDam, float dam, boolean shaped) {
-		this(id, bossDam, dam, shaped, DEF_HARD);
+	public EnchantmentGodslayer(int id, float damageBase, float bossFactor, boolean shaped) {
+		this(id, damageBase, bossFactor, shaped, DEF_HARD);
 	}
-	public EnchantmentGodslayer(int id, float bossDam, float dam, boolean shaped, boolean hard) {
+	public EnchantmentGodslayer(int id, float damageBase, float bossFactor, boolean shaped, boolean hard) {
 		super(id, 2, EnumEnchantmentType.weapon);
-		setName("gtweaks.godslayer");
-		initialize();
-		this.bossDamage = bossDam;
-		this.damage = dam;
+		this.setName("gtweaks.godslayer");
+		this.initialize();
+		this.damage = damageBase;
+		this.bossDamage = damageBase * bossFactor;
 		this.useShaped = shaped;
 		this.hardMode = hard;
 		this.hasLevels = false;
@@ -72,8 +72,8 @@ public class EnchantmentGodslayer extends CraftedEnchantment {
 	// Section: enchantment via crafting
 	@Override
 	public ItemStack getCraftingResult(InventoryCrafting grid) {
-		int toolSlot = findTarget(grid);
-		int lvl = getEnchLevel(grid);
+		int toolSlot = this.findTarget(grid);
+		int lvl = this.getEnchLevel(grid);
 		if ((toolSlot < 0) || (lvl < 1)) {
 			return null;
 		}
@@ -197,13 +197,13 @@ public class EnchantmentGodslayer extends CraftedEnchantment {
 	@Override
 	public int getEnchLevel(InventoryCrafting grid) {
 		if (this.useShaped) {
-			return getEnchLevelShaped(grid);
+			return this.getEnchLevelShaped(grid);
 		}
-		return getEnchLevelShapeless(grid);
+		return this.getEnchLevelShapeless(grid);
 	}
 	@Override
 	public void registerLocalization() {
-		setHumanReadableName("Godslayer");
+		this.setHumanReadableName("Godslayer");
 	}
 	// Section: enchantment event handling
 	@ForgeSubscribe

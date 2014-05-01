@@ -43,10 +43,10 @@ public class GTEnchant {
 		int wolfspeed = getEnchantID("speedOfTheWolf", 12, "(Semi-)early-game enchant to increase movement speed");
 		int jagged = getEnchantID("jagged", 13, "Cause bleeding DoT to targets");
 		boolean wolfspeedShaped = cfg.bool("enchant.misc", "speedOfTheWolf.shapedRecipes", true, "{[Sugar / Boots / Sugar] [Sugar / Redstone / Sugar] [Redstone - Feather - Redstone]} if true");
-		int slayerBossDamage = cfg.integer("enchant.misc", "godslayer.damage.boss", 200, "Damage dealt to boss mobs each hit with a Godslayer-enchanted weapon");
-		int slayerDamage = cfg.integer("enchant.misc", "godslayer.damage.normal", 10, "Damage dealt to non-boss mobs with a Godslayer-enchanted weapons");
+		float slayerBossFactor = (float) cfg.decimal("enchant.misc", "godslayer.damage.bossFactor", 15, "Amount to multiply base damage by when attacking a boss mob");
+		float slayerDamage = (float) cfg.decimal("enchant.misc", "godslayer.damage.base", 10, "Damage dealt to non-boss mobs with a Godslayer-enchanted weapon");
 		boolean slayerShaped = cfg.bool("enchant.misc", "godslayer.shapedRecipes", true, "Sword in the middle, dragon egg on top, nether stars all around (if false, ONLY position is ignored!)");
-		boolean slayerHardMode = cfg.bool("enchant.misc", "godslayer.hardMode", true, "Require a dragon egg to get the enchantment? (If false, another nether star will be needed instead)");
+		boolean slayerHardMode = cfg.bool("enchant.misc", "godslayer.hardMode", false, "Require a dragon egg to get the enchantment? (If false, another nether star will be needed instead)");
 		int jaggedMaxLvl = cfg.integer("enchant.misc", "jagged.maxLevel", 3, "Maximum level of the Jagged enchantment");
 		int jaggedBaseDuration = cfg.integer("enchant.misc", "jagged.baseTime", 20, "The base duration of the Bleed effect inflicted by Jagged weapons");
 		int jaggedFactor = cfg.integer("enchant.misc", "jagged.levelFactor", 5, "When using a Jagged weapon, the target is given the Bleed effect.\nIt will last for (base time + (enchantment level * this number))");
@@ -57,14 +57,14 @@ public class GTEnchant {
 		else {
 			LOG.info("Didn't register Decapitate enchantment");
 		}
-		if (getEnchantEnabled("godslayer", false, "Register the completely OP Godslayer enchantment?")) {
-			enchants.put("godslayer", new EnchantmentGodslayer(slayer, slayerBossDamage, slayerDamage, slayerShaped, slayerHardMode));
+		if (getEnchantEnabled("godslayer", true, "Register the somewhat OP Godslayer enchantment?")) {
+			enchants.put("godslayer", new EnchantmentGodslayer(slayer, slayerBossFactor, slayerDamage, slayerShaped, slayerHardMode));
 			LOG.info("Registered Godslayer enchantment");
 		}
 		else {
 			LOG.info("Didn't register Godslayer enchantment");
 		}
-		if (getEnchantEnabled("speedOfTheWolf", false, "Register the Direwolf20-inspired Speed of the Wolf enchantment?")) {
+		if (getEnchantEnabled("speedOfTheWolf", true, "Register the Direwolf20-inspired Speed of the Wolf enchantment?")) {
 			enchants.put("wolfspeed", new EnchantmentWolfSpeed(wolfspeed, wolfspeedShaped));
 			LOG.info("Registered Speed of the Wolf enchantment");
 		}

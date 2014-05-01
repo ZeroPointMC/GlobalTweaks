@@ -24,6 +24,8 @@ import zeropoint.minecraft.core.util.Log;
 import zeropoint.minecraft.core.util.WrittenBookTag;
 import zeropoint.minecraft.core.util.manip.PlayerHelper;
 import zeropoint.minecraft.core.util.manip.WorldHelper;
+import zeropoint.minecraft.enchant.GTEnchant;
+import zeropoint.minecraft.enchant.ench.EnchantmentJagged;
 import zeropoint.minecraft.sonic.GTSonic;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -34,7 +36,7 @@ import cpw.mods.fml.relauncher.Side;
 
 
 @SuppressWarnings("javadoc")
-@Mod(modid = GTTomes.modid, name = GTTomes.name, version = GTTomes.version, dependencies = "required-after:gtweaks-core")
+@Mod(modid = GTTomes.modid, name = GTTomes.name, version = GTTomes.version, dependencies = "required-after:gtweaks-core;required-after:gtweaks-enchant")
 @NetworkMod(clientSideRequired = true, serverSideRequired = false)
 public class GTTomes {
 	public static final String modid = "gtweaks-tomes";
@@ -131,12 +133,12 @@ public class GTTomes {
 				if ( !player.worldObj.isRemote) {
 					return;
 				}
-				if (tomeName.equalsIgnoreCase("instructions")) {
+				if (tomeName.toLowerCase().matches("^(?:instructions|help-(?:sonic|tomes|enchant|commands|craft))$")) {
 					if (GTCore.bronyMode()) {
-						new ChatMsg("Twilight says 'instructions' is a reserved name.").send(player);
+						new ChatMsg("Twilight says that's a reserved name.").send(player);
 						return;
 					}
-					new ChatMsg("Sorry, but you can't save any tome with the name 'instructions' (case-insensitive)").send(player);
+					new ChatMsg("Sorry, but you can't save a tome with that name (case-insensitive)").send(player);
 					return;
 				}
 				OutputFile tome = new OutputFile(path + tomeName);
@@ -153,7 +155,7 @@ public class GTTomes {
 					}
 				}
 				catch (IOException e) {
-					new ChatMsg("Something went wrong!").send(player);
+					new ChatMsg(ChatMsg.RED + "Something went wrong!").send(player);
 					new ChatMsg(e.toString()).send(player);
 					return;
 				}
@@ -214,7 +216,7 @@ public class GTTomes {
 	}
 	protected static final void createInstructions(String fileName) {
 		OutputFile help = createFile(fileName);
-		help.println(name + " Instructions");
+		help.println("GT Tomes Instructions");
 		help.println("Zero Point");
 		help.println("Currently, saving books is nonfunctional. This is because I cannot iterate over each string tag in the book. Trying yields the first page over and over.\n--PAGEBREAK--");
 		help.println("Loading works properly, though. This means you can manually edit the book files on your hard drive, and load them in-game.\n--PAGEBREAK--");
@@ -232,7 +234,7 @@ public class GTTomes {
 	protected static final void createGuideCommands(String fileName) {
 		OutputFile help = createFile(fileName);
 		GTBaseCommand[] cmds = GTCommands.getCommandArray();
-		help.println("GlobalTweaks|Commands Help");
+		help.println("GT Commands Help");
 		help.println("Zero Point");
 		help.print("The GT Commands module is currently ");
 		if (GTCore.Modules.commandsEnabled()) {
@@ -257,7 +259,7 @@ public class GTTomes {
 	}
 	protected static final void createGuideCraft(String fileName) {
 		OutputFile help = createFile(fileName);
-		help.println("GlobalTweaks|Recipes Help");
+		help.println("GT Recipes Help");
 		help.println("Zero Point");
 		help.print("The GT Recipes module is currently ");
 		if (GTCore.Modules.craftEnabled()) {
@@ -299,7 +301,7 @@ public class GTTomes {
 	}
 	protected static final void createGuideEnchant(String fileName) {
 		OutputFile help = createFile(fileName);
-		help.println("GlobalTweaks|Enchant Help");
+		help.println("GT Enchant Help");
 		help.println("Zero Point");
 		help.print("The GT Enchant module is currently ");
 		if (GTCore.Modules.enchantEnabled()) {
@@ -322,12 +324,29 @@ public class GTTomes {
 		help.println("Applies to: Sword");
 		help.println("Causes ridiculously high damage to boss mobs and hits them with lightning. We're talking one, MAYBE two hits to kill ANYTHING.");
 		help.println("§4MAY BE SHAPED§0 - Place the sword in a crafting table with seven nether stars and one dragon egg. If easy mode is enabled, replace the dragon egg with another nether star. If shaped, sword goes in the middle and egg (if needed) on top.");
+		help.println("--PAGEBREAK--");
+		help.println("§Speed of the Wolf§0");
+		help.println("Max level: I (1)");
+		help.println("Applies to: Boots");
+		help.println("Increases movement speed.\n\nInspired, of course, by Direwolf20.");
+		help.println("§4SHAPED§0 - recipe:");
+		help.println("S B S");
+		help.println("S R S");
+		help.println("R F R");
+		help.println("'S' is sugar, 'B' is the boots, 'R' is redstone, and 'F' is a feather.");
+		help.println("--PAGEBREAK--");
+		help.println("§lJagged§0");
+		help.println("Max level: " + ((EnchantmentJagged) GTEnchant.getEnch("jagged")).maxLevel);
+		help.println("Applies to: Sword");
+		help.println("Inflicts the Bleeding effect, causing damage over time.");
+		help.println("");
+		help.println("Player death via bleeding has its own death messages!");
 		help.close();
 		LOG.info("Wrote help file " + fileName);
 	}
 	protected static final void createGuideSonic(String fileName) {
 		OutputFile help = createFile(fileName);
-		help.println("GlobalTweaks|Sonic Help");
+		help.println("GT Sonic Help");
 		help.println("Zero Point");
 		help.print("The GT Sonic module is currently ");
 		if (GTCore.Modules.sonicEnabled()) {
@@ -376,9 +395,9 @@ public class GTTomes {
 			help.open(false);
 		}
 		catch (IOException e) {
-			throw new RuntimeException("Could not create " + fileName + " help file", e);
+			throw new RuntimeException("Could not create " + fileName + " premade book file", e);
 		}
-		LOG.info("Initialized help file " + fileName);
+		LOG.info("Initialized premade book file: " + fileName);
 		return help;
 	}
 }

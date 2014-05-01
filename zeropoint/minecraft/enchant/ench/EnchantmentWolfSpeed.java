@@ -2,16 +2,19 @@ package zeropoint.minecraft.enchant.ench;
 
 
 import net.minecraft.enchantment.EnumEnchantmentType;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import zeropoint.minecraft.core.ench.CraftedEnchantment;
 import zeropoint.minecraft.core.util.Log;
 import zeropoint.minecraft.core.util.manip.EnchantHelper;
+import zeropoint.minecraft.core.util.manip.ItemStackHelper;
 import zeropoint.minecraft.enchant.GTEnchant;
 
 
@@ -33,8 +36,7 @@ public class EnchantmentWolfSpeed extends CraftedEnchantment {
 		int targetSlot = this.findTarget(grid);
 		int level = this.getEnchLevel(grid);
 		if ((targetSlot > -1) && (level > 0)) {
-			ItemStack output = grid.getStackInSlot(targetSlot).copy();
-			EnchantHelper.addEnchantment(this.effectId, level, output);
+			ItemStack output = ItemStackHelper.fix(grid.getStackInSlot(targetSlot));
 			return output;
 		}
 		return null;
@@ -139,12 +141,10 @@ public class EnchantmentWolfSpeed extends CraftedEnchantment {
 	}
 	@ForgeSubscribe
 	public void onLivingUpdate(LivingUpdateEvent e) {
-		if (e.entity instanceof EntityPlayer) {
-			EntityPlayer player = (EntityPlayer) e.entity;
-			if (EnchantHelper.getEnchantmentLevel(this.effectId, player.getCurrentArmor(3)) > 0) {
-				// No idea what I'm doing
-				// Sorry
-			}
+		EntityLivingBase entity = e.entityLiving;
+		final int level = EnchantHelper.getEnchantmentLevel(this.effectId, entity.getCurrentItemOrArmor(1));
+		if (level > 0) {
+			entity.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 10, level + 1, true));
 		}
 	}
 }

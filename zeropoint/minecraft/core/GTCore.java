@@ -247,8 +247,10 @@ public class GTCore {
 	/**
 	 * Inject a line of text into the minecraft string translation table
 	 * 
-	 * @param lines
-	 *            - the text to inject into the string translation table
+	 * @param from
+	 *            - the unlocalized name
+	 * @param to
+	 *            - the translated name
 	 */
 	public static final void injectStringTranslation(String from, String to) {
 		StringBufferInputStream stream = new StringBufferInputStream();
