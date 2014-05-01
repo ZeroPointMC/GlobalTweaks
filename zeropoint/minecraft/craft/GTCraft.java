@@ -23,7 +23,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 public class GTCraft {
 	public static final String modid = "gtweaks-craft";
 	public static final String name = "GlobalTweaks|Craft";
-	public static final String version = "public";
+	public static final String version = "release";
 	private static Config cfg;
 	private static final Logger LOG = Log.getLogger(name);
 	private static boolean enableHook = false;

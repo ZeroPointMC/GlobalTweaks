@@ -30,8 +30,8 @@ public class EnchantmentWolfSpeed extends CraftedEnchantment {
 	}
 	@Override
 	public ItemStack getCraftingResult(InventoryCrafting grid) {
-		int targetSlot = findTarget(grid);
-		int level = getEnchLevel(grid);
+		int targetSlot = this.findTarget(grid);
+		int level = this.getEnchLevel(grid);
 		if ((targetSlot > -1) && (level > 0)) {
 			ItemStack output = grid.getStackInSlot(targetSlot).copy();
 			EnchantHelper.addEnchantment(this.effectId, level, output);
@@ -135,7 +135,7 @@ public class EnchantmentWolfSpeed extends CraftedEnchantment {
 	}
 	@Override
 	public void registerLocalization() {
-		setHumanReadableName("Speed of the Wolf");
+		this.setHumanReadableName("Speed of the Wolf");
 	}
 	@ForgeSubscribe
 	public void onLivingUpdate(LivingUpdateEvent e) {
@@ -143,6 +143,7 @@ public class EnchantmentWolfSpeed extends CraftedEnchantment {
 			EntityPlayer player = (EntityPlayer) e.entity;
 			if (EnchantHelper.getEnchantmentLevel(this.effectId, player.getCurrentArmor(3)) > 0) {
 				// No idea what I'm doing
+				// Sorry
 			}
 		}
 	}

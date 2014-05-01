@@ -38,7 +38,7 @@ import cpw.mods.fml.common.network.Player;
 public final class GTCommands {
 	public static final String modid = "gtweaks-commands";
 	public static final String name = "GlobalTweaks|Commands";
-	public static final String version = "public";
+	public static final String version = "release";
 	protected static HashMap<String, GTBaseCommand> cmds = new HashMap<String, GTBaseCommand>();
 	protected static GTBaseCommand[] cmdNames;
 	private static Config cfg;
@@ -64,6 +64,8 @@ public final class GTCommands {
 			new Book(),
 			// [/clipboard] Manipulate the user's clipboard
 			new Clipboard(),
+			// [/efflist] List all effects to console
+			new Efflist(),
 			// [/enchlist] List all enchantments to console
 			new Enchlist(),
 			// [/extinguish/ex] Remove fire

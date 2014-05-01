@@ -2,13 +2,17 @@ package zeropoint.minecraft.core;
 
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.StringTranslate;
 import net.minecraftforge.common.Configuration;
+import zeropoint.core.io.StringBufferInputStream;
 import zeropoint.minecraft.core.util.Log;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
@@ -17,6 +21,7 @@ import cpw.mods.fml.common.ModContainer;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
+import cpw.mods.fml.common.registry.LanguageRegistry;
 
 
 /**
@@ -38,7 +43,7 @@ public class GTCore {
 	/**
 	 * The Forge Mod Version of the GT Core module
 	 */
-	public static final String version = "public";
+	public static final String version = "release";
 	/**
 	 * The public debug logger
 	 */
@@ -59,6 +64,8 @@ public class GTCore {
 		private static boolean enchant = false;
 		private static boolean sonic = false;
 		private static boolean tomes = false;
+		private static boolean effects = false;
+		private static boolean tools = false;
 		/**
 		 * @return <code>true</code> iff the Commands module is enabled
 		 */
@@ -70,6 +77,12 @@ public class GTCore {
 		 */
 		public static boolean craftEnabled() {
 			return craft;
+		}
+		/**
+		 * @return <code>true</code> iff the Effects module is enabled
+		 */
+		public static boolean effectsEnabled() {
+			return effects;
 		}
 		/**
 		 * @return <code>true</code> iff the Enchant module is enabled
@@ -89,11 +102,16 @@ public class GTCore {
 		public static boolean tomesEnabled() {
 			return tomes;
 		}
+		/**
+		 * @return <code>true</code> iff the Tools module is enabled
+		 */
+		public static boolean toolsEnabled() {
+			return tools;
+		}
 	}
 	/**
 	 * Initialize the config file
 	 */
-	@SuppressWarnings("synthetic-access")
 	protected static void initConf() {
 		config = new Configuration(new File("config/GlobalTweaks.cfg"));
 		cfg = new Config(config);
@@ -101,8 +119,10 @@ public class GTCore {
 		Modules.commands = cfg.bool("enable", "commands", true, "Enable the GlobalTweaks|Commands module?");
 		Modules.craft = cfg.bool("enable", "recipes", true, "Enable the GlobalTweaks|Recipes module?");
 		Modules.sonic = cfg.bool("enable", "sonic", true, "Enable the GlobalTweaks|Sonic module?");
+		Modules.effects = cfg.bool("enable", "effects", true, "Enable the GlobalTweaks|Effects module?");
 		Modules.enchant = cfg.bool("enable", "enchant", true, "Enable the GlobalTweaks|Enchant module?");
 		Modules.tomes = cfg.bool("enable", "tomes", true, "Enable the GlobalTweaks|Tomes module?");
+		// Modules.tools = cfg.bool("enable", "tools", true, "Enable the GlobalTweaks|Tools module?");
 		logger.config("Configuration initialized");
 	}
 	@SuppressWarnings({
@@ -223,5 +243,23 @@ public class GTCore {
 	 */
 	public static final boolean isModLoaded(String modId) {
 		return isModLoaded(modId, false);
+	}
+	/**
+	 * Inject a line of text into the minecraft string translation table
+	 * 
+	 * @param lines
+	 *            - the text to inject into the string translation table
+	 */
+	public static final void injectStringTranslation(String from, String to) {
+		StringBufferInputStream stream = new StringBufferInputStream();
+		stream.appendToBuffer(from + "=" + to);
+		StringTranslate.inject(stream);
+		try {
+			stream.close();
+		}
+		catch (IOException e) {
+			logger.log(Level.WARNING, "Error injecting string localization", e);
+		}
+		LanguageRegistry.instance().addStringLocalization(from, to);
 	}
 }
