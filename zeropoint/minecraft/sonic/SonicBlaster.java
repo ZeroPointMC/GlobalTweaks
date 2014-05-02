@@ -89,7 +89,7 @@ public class SonicBlaster extends Item {
 	 * @return <code>true</code> if fuel was consumed, <code>false</code> to cancel action
 	 */
 	protected static boolean useFuel(EntityPlayer player) {
-		if ((GTSonic.blasterFuelID + GTSonic.blasterFuelCount) < 1) {
+		if ((GTSonic.blasterFuelID < 1) || (GTSonic.blasterFuelCount < 1)) {
 			return true;
 		}
 		return InventoryHelper.consumeItem(player.inventory, GTSonic.blasterFuelID, GTSonic.blasterFuelMeta, 1);

@@ -86,7 +86,7 @@ public class GTSonic {
 			this.blasterFuelName = Item.itemsList[this.blasterFuelID].getItemDisplayName(new ItemStack(this.blasterFuelID, 1, this.blasterFuelMeta));
 			this.blasterFuelCount = cfg.integer("sonic.fuel", "blaster.count", 1, "The number of fuel items to consume when using the Sonic Blaster\nSet to 0 to disable fuel");
 		}
-		catch (ArrayIndexOutOfBoundsException | NullPointerException e) {
+		catch (Exception e) {
 			this.blasterFuelID = 0;
 			this.blasterFuelMeta = 0;
 			this.blasterFuelName = "";
@@ -100,7 +100,7 @@ public class GTSonic {
 			this.vortexFuelName = Item.itemsList[this.vortexFuelID].getItemDisplayName(new ItemStack(this.vortexFuelID, 1, this.vortexFuelMeta));
 			this.vortexFuelCount = cfg.integer("sonic.fuel", "vortex.count", 1, "The number of fuel items to consume when using the Vortex Manipulator\nSet to 0 to disable fuel");
 		}
-		catch (ArrayIndexOutOfBoundsException | NullPointerException e) {
+		catch (Exception e) {
 			this.vortexFuelID = 0;
 			this.vortexFuelMeta = 0;
 			this.vortexFuelName = "";

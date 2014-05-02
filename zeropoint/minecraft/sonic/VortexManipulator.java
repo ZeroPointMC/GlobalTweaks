@@ -67,7 +67,7 @@ public class VortexManipulator extends Item {
 	 * @return <code>true</code> if fuel was consumed, <code>false</code> to cancel action
 	 */
 	protected static boolean useFuel(EntityPlayer player) {
-		if ((GTSonic.vortexFuelID + GTSonic.vortexFuelCount) < 1) {
+		if ((GTSonic.vortexFuelID < 1) || (GTSonic.vortexFuelCount < 1)) {
 			return true;
 		}
 		return InventoryHelper.consumeItem(player.inventory, GTSonic.vortexFuelID, GTSonic.vortexFuelMeta, GTSonic.vortexFuelCount);
