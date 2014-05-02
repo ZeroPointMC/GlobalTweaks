@@ -1,103 +1,51 @@
 [
-	{
-		"modid": "gtweaks-core",
-		"name": "GT|Core",
-		"description": "GlobalTweaks core module",
-		"credits": "The fantastic folks at MCP for making modding possible, the Forge dev team for making modding better, and everyone at Mojang for making a neat game and being cool with people modding it",
-		"logoFile": "",
-		"mcversion": "1.6.4",
-		"url": "",
-		"updateUrl": "",
-		"authors": [ "Zero Point" ],
-		"parent":"",
-		"screenshots": [],
-		"dependencies": [
-			"MinecraftForge"
-		]
-	},
-	{
-		"modid": "gtweaks-commands",
-		"name": "GT|Commands",
-		"description": "GlobalTweaks commands module",
-		"credits": "Everyone who gives me feedback, comments, ideas, or opinions!",
-		"logoFile": "",
-		"mcversion": "1.6.4",
-		"url": "",
-		"updateUrl": "",
-		"authors": [ "Zero Point" ],
-		"parent":"gtweaks-core",
-		"screenshots": [],
-		"dependencies": [
-			"MinecraftForge",
-			"gtweaks-core"
-		]
-	},
-	{
-		"modid": "gtweaks-craft",
-		"name": "GT|Craft",
-		"description": "GlobalTweaks crafting recipe module",
-		"credits": "Direwolf20 for showing me how cool mods can be",
-		"logoFile": "",
-		"mcversion": "1.6.4",
-		"url": "",
-		"updateUrl": "",
-		"authors": [ "Zero Point" ],
-		"parent":"gtweaks-core",
-		"screenshots": [],
-		"dependencies": [
-			"MinecraftForge",
-			"gtweaks-core"
-		]
-	},
-	{
-		"modid": "gtweaks-enchant",
-		"name": "GT|Enchant",
-		"description": "GlobalTweaks enchantments module",
-		"credits": "All of the existing modders, retired and active, for inspiring me to start GlobalTweaks",
-		"logoFile": "",
-		"mcversion": "1.6.4",
-		"url": "",
-		"updateUrl": "",
-		"authors": [ "Zero Point" ],
-		"parent":"gtweaks-core",
-		"screenshots": [],
-		"dependencies": [
-			"MinecraftForge",
-			"gtweaks-core"
-		]
-	},
-	{
-		"modid": "gtweaks-sonic",
-		"name": "GT|Sonic",
-		"description": "GlobalTweaks Sonic Screwdriver module",
-		"credits": "Pahimar for running Forgecraft, which showed me that even the oldest and greatest of mods can have bugs and issues - I would never have release this otherwise!",
-		"logoFile": "",
-		"mcversion": "1.6.4",
-		"url": "",
-		"updateUrl": "",
-		"authors": [ "Zero Point" ],
-		"parent":"gtweaks-core",
-		"screenshots": [],
-		"dependencies": [
-			"MinecraftForge",
-			"gtweaks-core"
-		]
-	},
-	{
-		"modid": "gtweaks-tomes",
-		"name": "GT|Tomes",
-		"description": "GlobalTweaks book loading module",
-		"credits": "Everyone at MinecraftForum, for being a wonderful and reciptive community - I've been lurking around enough to see that it's a great place",
-		"logoFile": "",
-		"mcversion": "1.6.4",
-		"url": "",
-		"updateUrl": "",
-		"authors": [ "Zero Point" ],
-		"parent":"gtweaks-core",
-		"screenshots": [],
-		"dependencies": [
-			"MinecraftForge",
-			"gtweaks-core"
-		]
-	}
+   {
+      "modid" : "gtweaks-core",
+      "name" : "GT|Core",
+      "description" : "GlobalTweaks core module",
+      "credits" : "The fantastic folks at MCP for making modding possible, the Forge dev team for making modding better, and everyone at Mojang for making a neat game and being cool with people modding it",
+      "mcversion" : "1.6.4"
+   },
+   {
+      "modid" : "gtweaks-commands",
+      "name" : "GT|Commands",
+      "description" : "GlobalTweaks commands module",
+      "credits" : "Everyone who gives me feedback, comments, ideas, or opinions!",
+      "mcversion" : "1.6.4"
+   },
+   {
+      "modid" : "gtweaks-craft",
+      "name" : "GT|Craft",
+      "description" : "GlobalTweaks crafting recipe module",
+      "credits" : "Direwolf20 for showing me how cool mods can be",
+      "mcversion" : "1.6.4"
+   },
+   {
+      "modid" : "gtweaks-enchant",
+      "name" : "GT|Enchant",
+      "description" : "GlobalTweaks enchantments module",
+      "credits" : "All of the existing modders, retired and active, for inspiring me to start GlobalTweaks",
+      "mcversion" : "1.6.4"
+   },
+   {
+      "modid" : "gtweaks-sonic",
+      "name" : "GT|Sonic",
+      "description" : "GlobalTweaks Sonic Screwdriver module",
+      "credits" : "Eloraam for the idea of sonic tools",
+      "mcversion" : "1.6.4"
+   },
+   {
+      "modid" : "gtweaks-tomes",
+      "name" : "GT|Tomes",
+      "description" : "GlobalTweaks book loading module",
+      "credits" : "Everyone at MinecraftForum, for being a wonderful and reciptive community - I've been lurking around enough to see that it's a great place",
+      "mcversion" : "1.6.4"
+   },
+   {
+      "modid" : "gtweaks-effects",
+      "name" : "GT|Effects",
+      "description" : "GlobalTweaks status effects module",
+      "credits" : "Pahimar for running Forgecraft, which showed me that even the oldest and greatest of mods can have bugs and issues - I would never have released this otherwise!",
+      "mcversion" : "1.6.4"
+   }
 ]
