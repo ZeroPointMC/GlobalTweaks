@@ -26,8 +26,6 @@ public class EnchantmentWolfSpeed extends CraftedEnchantment {
 	}
 	public EnchantmentWolfSpeed(int id, boolean shape) {
 		super(id, 2, EnumEnchantmentType.armor_feet);
-		this.setName("gtweaks.wolfspeed");
-		this.initialize();
 		this.shaped = shape;
 		this.hasLevels = false;
 	}
@@ -137,6 +135,7 @@ public class EnchantmentWolfSpeed extends CraftedEnchantment {
 	}
 	@Override
 	public void registerLocalization() {
+		this.setName("gtweaks.wolfspeed");
 		this.setHumanReadableName("Speed of the Wolf");
 	}
 	@ForgeSubscribe

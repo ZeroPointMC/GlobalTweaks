@@ -10,6 +10,7 @@ import zeropoint.minecraft.core.Config;
 import zeropoint.minecraft.core.GTCore;
 import zeropoint.minecraft.core.util.Log;
 import zeropoint.minecraft.enchant.ench.EnchantmentDecapitate;
+import zeropoint.minecraft.enchant.ench.EnchantmentEternal;
 import zeropoint.minecraft.enchant.ench.EnchantmentGodslayer;
 import zeropoint.minecraft.enchant.ench.EnchantmentJagged;
 import zeropoint.minecraft.enchant.ench.EnchantmentWolfSpeed;
@@ -42,6 +43,7 @@ public class GTEnchant {
 		int slayer = getEnchantID("godslayer", 11, "Deal MASSIVE damage to boss mobs");
 		int wolfspeed = getEnchantID("speedOfTheWolf", 12, "(Semi-)early-game enchant to increase movement speed");
 		int jagged = getEnchantID("jagged", 13, "Cause bleeding DoT to targets");
+		int eternal = getEnchantID("eternal", 14, "Prevents items from despawning");
 		boolean wolfspeedShaped = cfg.bool("enchant.misc", "speedOfTheWolf.shapedRecipes", true, "{[Sugar / Boots / Sugar] [Sugar / Redstone / Sugar] [Redstone - Feather - Redstone]} if true");
 		float slayerBossFactor = (float) cfg.decimal("enchant.misc", "godslayer.damage.bossFactor", 15, "Amount to multiply base damage by when attacking a boss mob");
 		float slayerDamage = (float) cfg.decimal("enchant.misc", "godslayer.damage.base", 10, "Damage dealt to non-boss mobs with a Godslayer-enchanted weapon");
@@ -77,6 +79,13 @@ public class GTEnchant {
 		}
 		else {
 			LOG.info("Didn't register Jagged enchantment");
+		}
+		if (getEnchantEnabled("eternal", true, "Register the Eternal enchantment?")) {
+			enchants.put("eternal", new EnchantmentEternal(eternal));
+			LOG.info("Registered Eternal enchantment");
+		}
+		else {
+			LOG.info("Didn't register Eternal enchantment");
 		}
 	}
 	protected static int getEnchantID(String enchName, int def, String cmnt) {

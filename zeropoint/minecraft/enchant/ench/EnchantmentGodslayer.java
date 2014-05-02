@@ -45,8 +45,6 @@ public class EnchantmentGodslayer extends CraftedEnchantment {
 	}
 	public EnchantmentGodslayer(int id, float damageBase, float bossFactor, boolean shaped, boolean hard) {
 		super(id, 2, EnumEnchantmentType.weapon);
-		this.setName("gtweaks.godslayer");
-		this.initialize();
 		this.damage = damageBase;
 		this.bossDamage = damageBase * bossFactor;
 		this.useShaped = shaped;
@@ -203,6 +201,7 @@ public class EnchantmentGodslayer extends CraftedEnchantment {
 	}
 	@Override
 	public void registerLocalization() {
+		this.setName("gtweaks.godslayer");
 		this.setHumanReadableName("Godslayer");
 	}
 	// Section: enchantment event handling

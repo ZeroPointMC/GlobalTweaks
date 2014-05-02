@@ -28,8 +28,6 @@ public class EnchantmentDecapitate extends CraftedEnchantment {
 	private static final Random r = new Random();
 	public EnchantmentDecapitate(int id) {
 		super(id, 2, EnumEnchantmentType.weapon);
-		this.setName("gtweaks.decapitate");
-		this.initialize();
 	}
 	// Section: configuration
 	@Override
@@ -50,7 +48,8 @@ public class EnchantmentDecapitate extends CraftedEnchantment {
 	// Section: initialization
 	@Override
 	public final void registerLocalization() {
-		setHumanReadableName("Decapitate");
+		this.setName("gtweaks.decapitate");
+		this.setHumanReadableName("Decapitate");
 	}
 	// Section: enchantment via crafting
 	@Override
@@ -85,7 +84,7 @@ public class EnchantmentDecapitate extends CraftedEnchantment {
 	@Override
 	public ItemStack getCraftingResult(InventoryCrafting grid) {
 		int skulls = findSkulls(grid);
-		int toolSlot = findTarget(grid);
+		int toolSlot = this.findTarget(grid);
 		if ((toolSlot < 0) || (skulls <= 0) || (skulls > 5)) {
 			return null;
 		}

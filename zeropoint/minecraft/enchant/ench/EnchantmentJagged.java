@@ -24,11 +24,9 @@ public class EnchantmentJagged extends CraftedEnchantment {
 	public final int levelFactor;
 	public EnchantmentJagged(int id, int maxLvl, int baseLength, int lvlFactor) {
 		super(id, 2, EnumEnchantmentType.weapon);
-		this.setName("gtweaks.jagged");
 		this.maxLevel = maxLvl;
 		this.baseDuration = baseLength;
 		this.levelFactor = lvlFactor;
-		this.initialize();
 	}
 	@Override
 	public ItemStack getCraftingResult(InventoryCrafting grid) {
@@ -84,6 +82,7 @@ public class EnchantmentJagged extends CraftedEnchantment {
 	}
 	@Override
 	public void registerLocalization() {
+		this.setName("gtweaks.jagged");
 		this.setHumanReadableName("Jagged");
 	}
 	// Section: enchantment event handling

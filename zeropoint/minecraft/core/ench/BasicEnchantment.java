@@ -29,6 +29,7 @@ public abstract class BasicEnchantment extends Enchantment {
 	 */
 	protected BasicEnchantment(int id, int weight, EnumEnchantmentType type) {
 		super(id, weight, type);
+		this.initialize();
 	}
 	@Override
 	public String getTranslatedName(int level) {
@@ -45,7 +46,7 @@ public abstract class BasicEnchantment extends Enchantment {
 	}
 	@Override
 	public int getMaxEnchantability(int level) {
-		return getMinEnchantability(level) + 10;
+		return this.getMinEnchantability(level) + 10;
 	}
 	@Override
 	public boolean isAllowedOnBooks() {
@@ -59,8 +60,8 @@ public abstract class BasicEnchantment extends Enchantment {
 	 * Do whatever final bits are needed to make the enchantment usable
 	 */
 	public void initialize() {
-		registerLocalization();
-		registerAsHandler();
+		this.registerLocalization();
+		this.registerAsHandler();
 	}
 	/**
 	 * Register the localization with Minecraft, so you get "Enchantment Name I" instead "enchant.myenchant.name I"

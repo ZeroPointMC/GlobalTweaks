@@ -9,11 +9,19 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import net.minecraft.command.ICommandSender;
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.StringTranslate;
 import net.minecraftforge.common.Configuration;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.ForgeSubscribe;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import zeropoint.core.io.StringBufferInputStream;
 import zeropoint.minecraft.core.util.Log;
+import zeropoint.minecraft.core.util.manip.EnchantHelper;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -25,13 +33,41 @@ import cpw.mods.fml.common.registry.LanguageRegistry;
 
 
 /**
- * GlobalTweaks core class - contains miscellneous functions/properties
+ * GlobalTweaks core class - contains miscellaneous functions/properties
  * 
  * @author Zero Point
  */
 @Mod(modid = GTCore.modid, name = GTCore.name, version = GTCore.version)
 @NetworkMod(clientSideRequired = true, serverSideRequired = false)
 public class GTCore {
+	/**
+	 * Event handlers that modify vanilla behavior in some way
+	 * 
+	 * @author Zero Point
+	 */
+	@SuppressWarnings("javadoc")
+	public static class BasicHandlers {
+		public final boolean handleItemDrop;
+		public BasicHandlers() {
+			this.handleItemDrop = cfg.bool("handlers", "drop", true, "Register the EntityJoinWorldEvent handler to modify items dropped in the world?\nExtends lifetime of dropped items when enchanted with Unbreaking\nExperimental - might not have any real effect, might (shouldn't, but might) break things");
+		}
+		/**
+		 * Extend the lifetime of dropped items that have the Unbreaking enchantment
+		 */
+		@ForgeSubscribe
+		public void onItemDrop(EntityJoinWorldEvent evt) {
+			if ( !this.handleItemDrop) {
+				return;
+			}
+			Entity ent = evt.entity;
+			if (ent instanceof EntityItem) {
+				EntityItem item = (EntityItem) ent;
+				ItemStack stack = item.getEntityItem();
+				final int unbreaking = EnchantHelper.getEnchantmentLevel(Enchantment.unbreaking.effectId, stack);
+				item.lifespan *= unbreaking + 1;
+			}
+		}
+	}
 	/**
 	 * The Forge ModID of the GT Core module
 	 */
@@ -65,7 +101,6 @@ public class GTCore {
 		private static boolean sonic = false;
 		private static boolean tomes = false;
 		private static boolean effects = false;
-		private static boolean tools = false;
 		/**
 		 * @return <code>true</code> iff the Commands module is enabled
 		 */
@@ -102,12 +137,6 @@ public class GTCore {
 		public static boolean tomesEnabled() {
 			return tomes;
 		}
-		/**
-		 * @return <code>true</code> iff the Tools module is enabled
-		 */
-		public static boolean toolsEnabled() {
-			return tools;
-		}
 	}
 	/**
 	 * Initialize the config file
@@ -122,7 +151,6 @@ public class GTCore {
 		Modules.effects = cfg.bool("enable", "effects", true, "Enable the GlobalTweaks|Effects module?");
 		Modules.enchant = cfg.bool("enable", "enchant", true, "Enable the GlobalTweaks|Enchant module?");
 		Modules.tomes = cfg.bool("enable", "tomes", true, "Enable the GlobalTweaks|Tomes module?");
-		// Modules.tools = cfg.bool("enable", "tools", true, "Enable the GlobalTweaks|Tools module?");
 		logger.config("Configuration initialized");
 	}
 	@SuppressWarnings({
@@ -133,6 +161,7 @@ public class GTCore {
 	public void preinit(FMLPreInitializationEvent event) {
 		this.initConf();
 		loadModList(true);
+		MinecraftForge.EVENT_BUS.register(new BasicHandlers());
 	}
 	@SuppressWarnings({
 		"javadoc",

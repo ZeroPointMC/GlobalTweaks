@@ -2,6 +2,7 @@ package zeropoint.minecraft.sonic;
 
 
 import java.util.List;
+import java.util.logging.Logger;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDoor;
@@ -13,18 +14,25 @@ import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.Event.Result;
+import net.minecraftforge.event.ForgeSubscribe;
+import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import zeropoint.minecraft.core.util.ChatMsg;
+import zeropoint.minecraft.core.util.Log;
 import zeropoint.minecraft.core.util.manip.InventoryHelper;
 
 
 @SuppressWarnings("javadoc")
 public class SonicBlaster extends Item {
+	private static final Logger LOG = Log.getLogger(GTSonic.name);
 	public SonicBlaster(int id) {
 		super(id);
 		this.setMaxStackSize(1);
 		this.setCreativeTab(CreativeTabs.tabTools);
 		this.setUnlocalizedName("gtweaks.sonic.sonicblaster");
 		this.setTextureName("gtweaks:blaster");
+		MinecraftForge.EVENT_BUS.register(this);
 	}
 	@Override
 	public void addInformation(ItemStack is, EntityPlayer player, List l, boolean B) {
@@ -100,9 +108,29 @@ public class SonicBlaster extends Item {
 		final int z = cZ;
 		List<ItemStack> drops = hit.getBlockDropped(world, cX, cY, cZ, world.getBlockMetadata(cX, cY, cZ), 0);
 		for (ItemStack drop : drops) {
-			if ( !player.inventory.addItemStackToInventory(drop)) {
+			// The old method of handling direct drop-to-inventory
+			// transitions didn't play well with Forestry's backpacks.
+			// Unfortunately, NEITHER method works right in creative.
+			// I'll see what I can do about that.
+			EntityItemPickupEvent evt = new EntityItemPickupEvent(player, new EntityItem(world, player.posX, player.posY, player.posZ, drop));
+			MinecraftForge.EVENT_BUS.post(evt);
+			Result r = evt.getResult();
+			// LOG.info((evt.isCanceled() ? "Canceled" : "Uncanceled") + " EntityItemPickupEvent result: " + (r == Result.ALLOW ? "ALLOW" : r == Result.DEFAULT ? "DEFAULT" : r == Result.DENY ? "DENY" : r));
+			if (r == Result.DENY) {
 				EntityItem ent = new EntityItem(world, x, y, z, drop);
 				world.spawnEntityInWorld(ent);
+			}
+		}
+	}
+	@SuppressWarnings("static-method")
+	@ForgeSubscribe
+	public void onPickup(EntityItemPickupEvent evt) {
+		if (evt.getResult() == Result.DEFAULT) {
+			if (evt.entityPlayer.inventory.addItemStackToInventory(evt.item.getEntityItem())) {
+				evt.setResult(Result.ALLOW);
+			}
+			else {
+				evt.setResult(Result.DENY);
 			}
 		}
 	}
