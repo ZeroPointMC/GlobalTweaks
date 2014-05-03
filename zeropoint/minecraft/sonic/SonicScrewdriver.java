@@ -22,10 +22,11 @@ import zeropoint.minecraft.core.GTCore;
 import zeropoint.minecraft.core.util.ChatMsg;
 import zeropoint.minecraft.core.util.EnumBlockSide;
 import zeropoint.minecraft.core.world.entity.EntityMiningTNT;
+import buildcraft.api.tools.IToolWrench;
 
 
 @SuppressWarnings("javadoc")
-public class SonicScrewdriver extends Item {
+public class SonicScrewdriver extends Item implements IToolWrench {
 	public final SonicType sonicType;
 	public static enum SonicType {
 		TENTH("ten"), ELEVEN("eleven"), EIGHT("eight"), FOUR("four");
@@ -239,4 +240,10 @@ public class SonicScrewdriver extends Item {
 		new ChatMsg("Scans indicate that this creature's health is at about " + health + "% maximum").send(player);
 		return true;
 	}
+	@Override
+	public boolean canWrench(EntityPlayer player, int x, int y, int z) {
+		return true;
+	}
+	@Override
+	public void wrenchUsed(EntityPlayer player, int x, int y, int z) {}
 }
