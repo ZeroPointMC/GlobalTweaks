@@ -38,14 +38,21 @@
       "modid" : "gtweaks-tomes",
       "name" : "GT|Tomes",
       "description" : "GlobalTweaks book loading module",
-      "credits" : "Everyone at MinecraftForum, for being a wonderful and reciptive community - I've been lurking around enough to see that it's a great place",
+      "credits" : "Everyone at MinecraftForum, for being a wonderful and reciptive community",
       "mcversion" : "1.6.4"
    },
    {
       "modid" : "gtweaks-effects",
       "name" : "GT|Effects",
       "description" : "GlobalTweaks status effects module",
-      "credits" : "Pahimar for running Forgecraft, which showed me that even the oldest and greatest of mods can have bugs and issues - I would never have released this otherwise!",
+      "credits" : "Pahimar for running Forgecraft, which showed me that even the oldest and greatest of mods can have bugs and issues - I would never have felt ready to release this otherwise!",
+      "mcversion" : "1.6.4"
+   },
+   {
+      "modid" : "gtweaks-misc",
+      "name" : "GT|Misc",
+      "description" : "GlobalTweaks miscellaneous module",
+      "credits" : "You, for giving me a reason to make this mod.",
       "mcversion" : "1.6.4"
    }
 ]

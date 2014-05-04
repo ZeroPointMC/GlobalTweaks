@@ -101,6 +101,7 @@ public class GTCore {
 		private static boolean sonic = false;
 		private static boolean tomes = false;
 		private static boolean effects = false;
+		private static boolean misc = false;
 		/**
 		 * @return <code>true</code> iff the Commands module is enabled
 		 */
@@ -137,6 +138,12 @@ public class GTCore {
 		public static boolean tomesEnabled() {
 			return tomes;
 		}
+		/**
+		 * @return <code>true</code> iff the Misc module is enabled
+		 */
+		public static boolean miscEnabled() {
+			return misc;
+		}
 	}
 	/**
 	 * Initialize the config file
@@ -151,6 +158,7 @@ public class GTCore {
 		Modules.effects = cfg.bool("enable", "effects", true, "Enable the GlobalTweaks|Effects module?");
 		Modules.enchant = cfg.bool("enable", "enchant", true, "Enable the GlobalTweaks|Enchant module?");
 		Modules.tomes = cfg.bool("enable", "tomes", true, "Enable the GlobalTweaks|Tomes module?");
+		Modules.misc = cfg.bool("enable", "misc", true, "Enable the GlobalTweaks|Misc module?");
 		logger.config("Configuration initialized");
 	}
 	@SuppressWarnings({

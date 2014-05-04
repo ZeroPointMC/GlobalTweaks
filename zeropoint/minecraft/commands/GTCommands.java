@@ -64,6 +64,8 @@ public final class GTCommands {
 			new Book(),
 			// [/clipboard] Manipulate the user's clipboard
 			new Clipboard(),
+			// [/craft] Open a 3x3 crafting grid on the go
+			new Craft(),
 			// [/efflist] List all effects to console
 			new Efflist(),
 			// [/enchlist] List all enchantments to console
