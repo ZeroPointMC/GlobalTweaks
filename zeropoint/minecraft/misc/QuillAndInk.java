@@ -12,6 +12,7 @@ import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import zeropoint.minecraft.core.util.ChatMsg;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 
@@ -29,7 +30,7 @@ public class QuillAndInk extends Item {
 	}
 	@Override
 	public void addInformation(ItemStack is, EntityPlayer player, List l, boolean B) {
-		l.add("Sneak-click a sign to edit it");
+		l.add(ChatMsg.CYAN + "Sneak and right click a sign to edit it.");
 	}
 	@Override
 	public EnumAction getItemUseAction(ItemStack par1ItemStack) {

@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDoor;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
@@ -19,7 +20,9 @@ import net.minecraftforge.event.Event.Result;
 import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import zeropoint.minecraft.core.util.ChatMsg;
+import zeropoint.minecraft.core.util.EnumBlockSide;
 import zeropoint.minecraft.core.util.Log;
+import zeropoint.minecraft.core.util.manip.EnchantHelper;
 import zeropoint.minecraft.core.util.manip.InventoryHelper;
 
 
@@ -36,12 +39,13 @@ public class SonicBlaster extends Item {
 	}
 	@Override
 	public void addInformation(ItemStack is, EntityPlayer player, List l, boolean B) {
-		l.add("Instantly breaks blocks, and attempts");
-		l.add("to place the drops in your inventory.");
-		l.add("Sneak and right click a block to use.");
+		l.add(ChatMsg.CYAN + "Sneak and right click a block to use.");
+		l.add(ChatMsg.SILVER + "Instantly breaks blocks in a 3x3 around");
+		l.add(ChatMsg.SILVER + "the block you hit. Attempts to place drops");
+		l.add(ChatMsg.SILVER + "directly into your inventory.");
 		l.add("");
-		l.add("Doesn't collect items from inventories!");
-		l.add("Careful when using on chests!");
+		l.add(ChatMsg.MAROON + "Doesn't collect items from inventories!");
+		l.add(ChatMsg.RED + "Careful when using on chests!");
 	}
 	@Override
 	public EnumAction getItemUseAction(ItemStack par1ItemStack) {
@@ -66,28 +70,50 @@ public class SonicBlaster extends Item {
 				new ChatMsg(ChatMsg.GRAY + "You need " + GTSonic.blasterFuelCount + " of " + GTSonic.blasterFuelName + ChatMsg.GRAY + " to use your blaster").send(player);
 				return false;
 			}
-			final int id = world.getBlockId(x, y, z);
-			final Block hit = Block.blocksList[id];
-			if (hit == null) {
-				new ChatMsg("*fizzle*").send(player);
-			}
-			else {
-				if (hit instanceof BlockDoor) {
-					if ((world.getBlockId(x, y - 1, z) == id) && ((world.getBlockMetadata(x, y, z) & 8) != 0)) {
-						// They hit the top half
-						doDrops(world, x, y - 1, z, hit, player);
-						world.setBlockToAir(x, y - 1, z);
-					}
-				}
-				else {
-					doDrops(world, x, y, z, hit, player);
-				}
-			}
-			world.setBlockToAir(x, y, z);
+			sonicBlock(x, y, z, world, player, EnumBlockSide.getByInt(blockSideId));
 		}
 		player.inventory.onInventoryChanged();
 		player.inventoryContainer.detectAndSendChanges();
 		return world.isRemote ? false : true;
+	}
+	private static void sonicBlock(final int xc, final int yc, final int zc, final World world, final EntityPlayer player, final EnumBlockSide side) {
+		final int id = world.getBlockId(xc, yc, zc);
+		final Block hit = Block.blocksList[id];
+		if (hit == null) {
+			new ChatMsg("*fizzle*").send(player);
+			LOG.warning("Null block hit‽");
+		}
+		else {
+			int x = xc, y = yc, z = zc;
+			if ((side == EnumBlockSide.BOTTOM) || (side == EnumBlockSide.TOP)) {
+				// x/z
+				for (x = xc - 1; x <= (xc + 1); x++ ) {
+					for (z = zc - 1; z <= (zc + 1); z++ ) {
+						doDrops(world, x, y, z, player);
+					}
+				}
+			}
+			else if ((side == EnumBlockSide.EAST) || (side == EnumBlockSide.WEST)) {
+				// y/z
+				for (y = yc - 1; y <= (yc + 1); y++ ) {
+					for (z = zc - 1; z <= (zc + 1); z++ ) {
+						doDrops(world, x, y, z, player);
+					}
+				}
+			}
+			else if ((side == EnumBlockSide.NORTH) || (side == EnumBlockSide.SOUTH)) {
+				// x/y
+				for (x = xc - 1; x <= (xc + 1); x++ ) {
+					for (y = yc - 1; y <= (yc + 1); y++ ) {
+						doDrops(world, x, y, z, player);
+					}
+				}
+			}
+			else {
+				new ChatMsg("*fizzle*").send(player);
+				LOG.warning("Block hit on non-existant side‽");
+			}
+		}
 	}
 	/**
 	 * Consume one unit of fuel from the player inventory
@@ -102,12 +128,28 @@ public class SonicBlaster extends Item {
 		}
 		return InventoryHelper.consumeItem(player.inventory, GTSonic.blasterFuelID, GTSonic.blasterFuelMeta, 1);
 	}
-	private static void doDrops(World world, int cX, int cY, int cZ, Block hit, EntityPlayer player) {
+	private static void doDrops(World world, int cX, int cY, int cZ, EntityPlayer player) {
 		final int x = cX;
 		final int y = cY + 1;
 		final int z = cZ;
-		List<ItemStack> drops = hit.getBlockDropped(world, cX, cY, cZ, world.getBlockMetadata(cX, cY, cZ), 0);
+		final int id = world.getBlockId(cX, cY, cZ);
+		final Block hit = Block.blocksList[id];
+		if (hit == null) {
+			LOG.warning("Null block hit‽");
+			return;
+		}
+		LOG.info("Handling block #" + id + " at (" + x + ", " + y + ", " + z + ")");
+		if (hit instanceof BlockDoor) {
+			if ((world.getBlockId(cX, cY - 1, cZ) == id) && ((world.getBlockMetadata(cX, cY, cZ) & 8) != 0)) {
+				// They hit the top half
+				doDrops(world, cX, cY - 1, cZ, player);
+				return;
+			}
+		}
+		LOG.info("Dropping block #" + id + " at (" + x + ", " + y + ", " + z + ")");
+		List<ItemStack> drops = hit.getBlockDropped(world, cX, cY, cZ, world.getBlockMetadata(cX, cY, cZ), EnchantHelper.getEnchantmentLevel(Enchantment.fortune.effectId, player.getCurrentEquippedItem()));
 		for (ItemStack drop : drops) {
+			LOG.info("Dropping " + drop.stackSize + " of " + drop.getDisplayName() + " (item #" + drop.itemID + ")");
 			// The old method of handling direct drop-to-inventory
 			// transitions didn't play well with Forestry's backpacks.
 			// Unfortunately, NEITHER method works right in creative.
@@ -121,6 +163,7 @@ public class SonicBlaster extends Item {
 				world.spawnEntityInWorld(ent);
 			}
 		}
+		world.setBlockToAir(cX, cY, cZ);
 	}
 	@SuppressWarnings("static-method")
 	@ForgeSubscribe
