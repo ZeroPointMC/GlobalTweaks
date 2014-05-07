@@ -52,7 +52,15 @@
       "modid" : "gtweaks-misc",
       "name" : "GT|Misc",
       "description" : "GlobalTweaks miscellaneous module",
-      "credits" : "You, for giving me a reason to make this mod.",
+      "credits" : "My teachers (Miss Serritella, Miss Bierman, Mrs Marak) for letting me work on this in school",
+      "credits-additional": "Miss Hackett",
+      "mcversion" : "1.6.4"
+   },
+   {
+      "modid" : "gt-teacherAppreciation",
+      "name" : "ZeroPoint's Teacher Appreciation Week Gift",
+      "description" : "Made during Teacher Appreciation week - in school, no less!",
+      "credits" : "My teachers (Miss Serritella, Miss Bierman, Mrs Marak, Miss Hackett, Mr Greco) for letting me work on GlobalTweaks in school",
       "mcversion" : "1.6.4"
    }
 ]

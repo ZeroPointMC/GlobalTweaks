@@ -48,7 +48,7 @@ public class GTSonic {
 	protected static int redstoneLampActiveId;
 	protected static int redstoneLampInactiveId;
 	private static Config cfg;
-	private static final Logger LOG = Log.getLogger(name);
+	public static final Logger LOG = Log.getLogger(name);
 	@SuppressWarnings("unused")
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
@@ -116,7 +116,7 @@ public class GTSonic {
 		this.sonic10 = new SonicScrewdriver(cfg.item("sonic", "sonicTen", 26043, "The tenth doctor's screwdriver"), SonicScrewdriver.SonicType.TENTH);
 		this.sonic8 = new SonicScrewdriver(cfg.item("sonic", "sonicEight", 26044, "The eighth doctor's screwdriver"), SonicScrewdriver.SonicType.EIGHT);
 		this.sonic4 = new SonicScrewdriver(cfg.item("sonic", "sonicFour", 26045, "The fourth doctor's screwdriver"), SonicScrewdriver.SonicType.FOUR);
-		this.blaster = new SonicBlaster(cfg.item("sonic", "sonicBlaster", 26046, "The sonic blaster (or 'squareness gun') used by Captain Jack Harkness"));
+		this.blaster = new SonicBlaster(cfg.item("sonic", "sonicBlaster", 26046, "The sonic blaster (or 'squareness gun') used by Captain Jack Harkness"), cfg.integer("sonic", "fortuneLevel", 0, "The Sonic Blaster will pretend to have this level of the\nFortune enchantment when calculating block drops.\nNo, there isn't a limit. Theoretically, anyway.\nI take no responsibility for you crashing\nyour game by setting this to ten million."));
 		this.vortexManip = new VortexManipulator(cfg.item("sonic", "vortexManipulator", 26047, "The vortex manipulator used by Captain Jack Harkness"));
 		this.registerItems();
 		this.addRecipes();
@@ -139,7 +139,7 @@ public class GTSonic {
 		GameRegistry.registerItem(this.blaster, "sonicBlaster");
 		LanguageRegistry.addName(this.blaster, "Sonic Blaster");
 		GameRegistry.registerItem(this.vortexManip, "vortexManipulator");
-		LanguageRegistry.addName(this.vortexManip, "Vortex Manipulator [NYI]");
+		LanguageRegistry.addName(this.vortexManip, "Vortex Manipulator");
 		LOG.info("Items/blocks registered");
 	}
 	protected void addRecipes() {

@@ -50,4 +50,40 @@ public enum EnumBlockSide {
 				return null;
 		}
 	}
+	/**
+	 * @return <code>true</code> if this represents the top or the bottom
+	 */
+	public final boolean topBottom() {
+		return (this == BOTTOM) || (this == TOP);
+	}
+	/**
+	 * @return <code>true</code> if this represents the east or the west
+	 */
+	public final boolean eastWest() {
+		return (this == EAST) || (this == WEST);
+	}
+	/**
+	 * @return <code>true</code> if this represents the north or the south
+	 */
+	public final boolean northSouth() {
+		return (this == NORTH) || (this == SOUTH);
+	}
+	/**
+	 * @return <code>true</code> if surrounding blocks are on the XZ plane
+	 */
+	public final boolean affectXZ() {
+		return this.topBottom();
+	}
+	/**
+	 * @return <code>true</code> if surrounding blocks are on the XY plane
+	 */
+	public final boolean affectXY() {
+		return this.northSouth();
+	}
+	/**
+	 * @return <code>true</code> if surrounding blocks are on the YZ plane
+	 */
+	public final boolean affectYZ() {
+		return this.eastWest();
+	}
 }

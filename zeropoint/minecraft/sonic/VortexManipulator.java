@@ -9,8 +9,11 @@ import net.minecraft.item.EnumAction;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
 import zeropoint.minecraft.core.util.ChatMsg;
+import zeropoint.minecraft.core.util.EnumBlockSide;
 import zeropoint.minecraft.core.util.manip.InventoryHelper;
 
 
@@ -25,11 +28,7 @@ public class VortexManipulator extends Item {
 	}
 	@Override
 	public void addInformation(ItemStack is, EntityPlayer player, List l, boolean B) {
-		l.add("NYI");
-		if ( !B) {
-			return;
-		}
-		l.add("Allows you to teleport on a whim!");
+		l.add(ChatMsg.SKY + "Allows you to teleport through blocks!");
 		l.add("Unfortunately, spacio-temporal travel");
 		l.add("without a capsule tends to mess you up...");
 	}
@@ -53,14 +52,66 @@ public class VortexManipulator extends Item {
 				new ChatMsg(ChatMsg.GRAY + "You need " + GTSonic.vortexFuelCount + " of " + GTSonic.vortexFuelName + ChatMsg.GRAY + " to use your vortex manipulator").send(player);
 				return false;
 			}
-			new ChatMsg(ChatMsg.RED + "The Vortex Manipulator is not yet functional, sorry!" + ChatMsg.GRAY + " ~ZeroPoint").send(player);
+			EnumBlockSide side = EnumBlockSide.getByInt(blockSideId);
+			int px = x, py = (player.isSneaking() ? y - 1 : y), pz = z;
+			if (side == side.BOTTOM) {
+				do {
+					++py;
+				} while ( !(world.isAirBlock(px, py, pz) || world.isAirBlock(px, py + 1, pz)));
+				warp(player, px, py, pz);
+			}
+			else if (side == side.TOP) {
+				do {
+					--py;
+				} while ( !(world.isAirBlock(px, py, pz) || world.isAirBlock(px, py + 1, pz)));
+				warp(player, px, --py, pz);
+			}
+			else if (side == side.EAST) {
+				do {
+					--px;
+				} while ( !(world.isAirBlock(px, py, pz) || world.isAirBlock(px, py + 1, pz)));
+				warp(player, px, py, pz);
+			}
+			else if (side == side.WEST) {
+				do {
+					++px;
+				} while ( !(world.isAirBlock(px, py, pz) || world.isAirBlock(px, py + 1, pz)));
+				warp(player, px, py, pz);
+			}
+			else if (side == side.NORTH) {
+				do {
+					++pz;
+				} while ( !(world.isAirBlock(px, py, pz) || world.isAirBlock(px, py + 1, pz)));
+				warp(player, px, py, pz);
+			}
+			else if (side == side.SOUTH) {
+				do {
+					--pz;
+				} while ( !(world.isAirBlock(px, py, pz) || world.isAirBlock(px, py + 1, pz)));
+				warp(player, px, py, pz);
+			}
+			else {
+				new ChatMsg("How did you hit a non-existant block side?").send(player);
+			}
 		}
 		player.inventory.onInventoryChanged();
 		player.inventoryContainer.detectAndSendChanges();
 		return world.isRemote ? false : true;
 	}
+	private static void warp(EntityPlayer player, int px, int py, int pz) {
+		player.setPositionAndUpdate(px, py, pz);
+		if ( !player.capabilities.isCreativeMode) {
+			player.addPotionEffect(new PotionEffect(Potion.confusion.id, 160, 0, true));
+			player.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 40, 2, true));
+			player.addPotionEffect(new PotionEffect(Potion.weakness.id, 200, 1, true));
+		}
+		// warpMsg(player, px, py, pz);
+	}
+	private static void warpMsg(EntityPlayer player, int px, int py, int pz) {
+		new ChatMsg("Warping from " + ((int) player.posX) + " " + ((int) player.posY) + " " + ((int) player.posZ) + " to " + px + " " + py + " " + pz).send(player);
+	}
 	/**
-	 * Consume one unit of fuel from the player inventory
+	 * Consume fuel from the player inventory
 	 * 
 	 * @param player
 	 *            the player who used the vortex manipulator
