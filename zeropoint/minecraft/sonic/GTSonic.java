@@ -45,6 +45,8 @@ public class GTSonic {
 	protected SonicScrewdriver sonic4;
 	protected SonicBlaster blaster;
 	protected VortexManipulator vortexManip;
+	protected DblIronBand band;
+	protected VortexCore core;
 	protected static int redstoneLampActiveId;
 	protected static int redstoneLampInactiveId;
 	private static Config cfg;
@@ -118,6 +120,8 @@ public class GTSonic {
 		this.sonic4 = new SonicScrewdriver(cfg.item("sonic", "sonicFour", 26045, "The fourth doctor's screwdriver"), SonicScrewdriver.SonicType.FOUR);
 		this.blaster = new SonicBlaster(cfg.item("sonic", "sonicBlaster", 26046, "The sonic blaster (or 'squareness gun') used by Captain Jack Harkness"), cfg.integer("sonic", "fortuneLevel", 0, "The Sonic Blaster will pretend to have this level of the\nFortune enchantment when calculating block drops.\nNo, there isn't a limit. Theoretically, anyway.\nI take no responsibility for you crashing\nyour game by setting this to ten million."));
 		this.vortexManip = new VortexManipulator(cfg.item("sonic", "vortexManipulator", 26047, "The vortex manipulator used by Captain Jack Harkness"));
+		this.band = new DblIronBand(cfg.item("sonic", "band", 26048, "One of the crafting components for the vortex manipulator"));
+		this.core = new VortexCore(cfg.item("sonic", "vortexCore", 26049, "One of the crafting components for the vortex manipulator"));
 		this.registerItems();
 		this.addRecipes();
 	}
@@ -154,11 +158,13 @@ public class GTSonic {
 		ItemStack iron = new ItemStack(Item.ingotIron);
 		ItemStack wood = new ItemStack(Block.planks);
 		ItemStack redstone = new ItemStack(Item.redstone);
+		ItemStack vortManip = new ItemStack(this.vortexManip);
 		GameRegistry.addRecipe(sonicProbe11, "e  ", " g ", "  i", 'e', emerald, 'g', gold, 'i', iron);
 		GameRegistry.addRecipe(sonicProbe10, "d  ", " g ", "  i", 'd', diamond, 'g', gold, 'i', iron);
 		GameRegistry.addRecipe(sonicProbe8, "g  ", " i ", "  i", 'g', gold, 'i', iron);
 		GameRegistry.addRecipe(sonicProbe4, "d  ", " r ", "  w", 'd', diamond, 'r', redstone, 'w', wood);
 		GameRegistry.addRecipe(sonicBlaster, "dgr", " ir", " pr", 'd', diamond, 'g', gold, 'r', redstone, 'i', iron, 'p', wood);
+		GameRegistry.addRecipe(vortManip, "qrq", "qcb", "dwe", 'q', new ItemStack(Item.netherQuartz), 'r', new ItemStack(Item.redstoneRepeater), 'c', new ItemStack(this.core), 'b', new ItemStack(Block.stoneButton), 'd', new ItemStack(Item.diamond), 'w', new ItemStack(this.band), 'e', new ItemStack(Item.enderPearl));
 		LOG.info("Recipes registered");
 	}
 }
