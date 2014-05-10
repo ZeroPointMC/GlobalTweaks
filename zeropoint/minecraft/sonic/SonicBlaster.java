@@ -52,27 +52,19 @@ public class SonicBlaster extends Item implements IRecipe {
 		NBTTagCompound tag = is.stackTagCompound;
 		byte mode = tag.getByte("mode");
 		if (mode == 0) {
-			l.add(ChatMsg.SKY + "Precision mode");
-			if (B) {
-				l.add(ChatMsg.SILVER + "Instantly break the block you hit");
-			}
+			l.add(ChatMsg.SKY + "Precision mode" + (B ? " - 1x1" : ""));
 			l.add(ChatMsg.GRAY + "Place in a crafting grid to change to area mode");
 		}
 		else if (mode == 1) {
-			l.add(ChatMsg.RED + "Area mode");
-			if (B) {
-				l.add(ChatMsg.SILVER + "Instantly breaks 3x3 around the block you hit");
-			}
+			l.add(ChatMsg.RED + "Area mode" + (B ? " - 3x3" : ""));
 			l.add(ChatMsg.GRAY + "Place in a crafting grid to change to precision mode");
 		}
 		else {
 			tag.setByte("mode", (byte) 0);
+			new ChatMsg("*beep* " + ChatMsg.SILVER + ChatMsg.ITALIC + "[System rebooted]").send(player);
 			this.addInformation(is, player, l, B);
 			return;
 		}
-		l.add(ChatMsg.LIME + "Attempts to place drops directly into your inventory.");
-		l.add(ChatMsg.MAROON + "Doesn't collect items from inventories!");
-		l.add(ChatMsg.MAROON + "Be careful when using on chests!");
 	}
 	@Override
 	public EnumAction getItemUseAction(ItemStack par1ItemStack) {

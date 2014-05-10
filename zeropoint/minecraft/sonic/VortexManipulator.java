@@ -28,9 +28,8 @@ public class VortexManipulator extends Item {
 	}
 	@Override
 	public void addInformation(ItemStack is, EntityPlayer player, List l, boolean B) {
-		l.add(ChatMsg.SKY + "Allows you to teleport through blocks!");
-		l.add("Unfortunately, spacio-temporal travel");
-		l.add("without a capsule tends to mess you up...");
+		l.add(ChatMsg.SKY + "Allows you to teleport through blocks");
+		l.add("Dangerous if you don't know where you're going to end up...");
 	}
 	@Override
 	public EnumAction getItemUseAction(ItemStack par1ItemStack) {

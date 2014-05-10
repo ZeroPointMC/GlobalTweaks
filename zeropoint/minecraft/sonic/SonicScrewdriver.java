@@ -18,7 +18,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.World;
-import zeropoint.minecraft.core.GTCore;
 import zeropoint.minecraft.core.util.ChatMsg;
 import zeropoint.minecraft.core.util.EnumBlockSide;
 import zeropoint.minecraft.core.world.entity.EntityMiningTNT;
@@ -50,13 +49,11 @@ public class SonicScrewdriver extends Item implements IToolWrench {
 	}
 	@Override
 	public void addInformation(ItemStack is, EntityPlayer player, List l, boolean B) {
-		l.add("Does too many things to explain here.");
-		l.add("Use the HELP-SONIC book from the GT Tomes module!");
-		l.add("To get it, hold a book and use this chat command:");
-		l.add("/tome load HELP-SONIC");
-		if ( !GTCore.Modules.tomesEnabled()) {
-			l.add("WARNING! Tomes module disabled!");
-		}
+		l.add("Affects the following blocks");
+		l.add("Gravel, cobble, sandstone, sand,");
+		l.add("glass, tnt, doors, dirt, ice,");
+		l.add("redstone lamps");
+		l.add("Also scans creature health and heals injured entities");
 	}
 	@Override
 	public EnumAction getItemUseAction(ItemStack par1ItemStack) {
