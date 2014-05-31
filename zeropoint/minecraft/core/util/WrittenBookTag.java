@@ -280,8 +280,8 @@ public class WrittenBookTag {
 			int tags = content.tagCount();
 			try {
 				for (int i = 0; i < tags; i++ ) {
-					NBTTagString tag = (NBTTagString) content.tagAt(0);
-					this.pages.add(tag.toString());
+					NBTTagString tag = (NBTTagString) content.tagAt(i);
+					this.pages.add(String.valueOf(tag));
 				}
 			}
 			catch (ClassCastException e) {
@@ -370,7 +370,7 @@ public class WrittenBookTag {
 		NBTTagCompound tag = new NBTTagCompound();
 		tag.setString("author", this.author);
 		tag.setString("title", this.title);
-		tag.setTag("pages", getPagesAsNBT());
+		tag.setTag("pages", this.getPagesAsNBT());
 		return tag;
 	}
 	/**
@@ -380,9 +380,9 @@ public class WrittenBookTag {
 	 *            - the tag to merge into
 	 */
 	public void applyToNBT(NBTTagCompound tag) {
-		tag.setString("author", getAuthor());
-		tag.setString("title", getTitle());
-		tag.setTag("pages", getPagesAsNBT());
+		tag.setString("author", this.getAuthor());
+		tag.setString("title", this.getTitle());
+		tag.setTag("pages", this.getPagesAsNBT());
 	}
 	/**
 	 * @return an ItemStack containing the book represented by this object

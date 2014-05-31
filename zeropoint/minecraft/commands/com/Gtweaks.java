@@ -13,14 +13,14 @@ import zeropoint.minecraft.core.util.ChatMsg;
  * 
  * @author Zero Point
  */
-public class Gtweak extends GTBaseCommand {
+public class Gtweaks extends GTBaseCommand {
 	@Override
 	public String getCommandName() {
-		return "gtweak";
+		return "gtweaks";
 	}
 	@Override
 	public String getCommandArgs(ICommandSender src) {
-		return "list";
+		return "[list]";
 	}
 	@Override
 	public boolean isFinished() {
@@ -29,7 +29,7 @@ public class Gtweak extends GTBaseCommand {
 	@Override
 	public void execute(ICommandSender src, EntityPlayer player, String[] args) {
 		if (args.length < 1) {
-			this.sendUsageMessage(src);
+			this.call(src, player, "list");
 			return;
 		}
 		String arg = args[0].toLowerCase();

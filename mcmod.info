@@ -4,7 +4,8 @@
       "name" : "GT|Core",
       "description" : "GlobalTweaks base library",
       "credits" : "The fantastic folks at MCP for making modding possible, the Forge dev team for making modding better, and everyone at Mojang for making a neat game and being cool with people modding it",
-      "mcversion" : "1.6.4"
+      "mcversion" : "1.6.4",
+      "url": "http://zeropointmc.tumblr.com/"
    },
    {
       "modid" : "gtweaks-commands",

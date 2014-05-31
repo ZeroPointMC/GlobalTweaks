@@ -5,11 +5,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
 
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import zeropoint.minecraft.core.util.ChatMsg;
+import zeropoint.minecraft.core.util.Log;
 
 
 /**
@@ -108,9 +110,9 @@ public abstract class GTBaseCommand extends CommandBase {
 			this.execute(src, GTCore.getPlayerEntity(src), args);
 		}
 		catch (Exception e) {
-			new ChatMsg("An exception was detected while executing this command:").send(src);
-			new ChatMsg(e.toString()).send(src);
-			e.printStackTrace();
+			new ChatMsg(ChatMsg.RED + "An exception was detected while executing this command:").send(src);
+			new ChatMsg(ChatMsg.MAROON + e.toString()).send(src);
+			Log.getLogger(GTCore.name).log(Level.SEVERE, "Exception detected during command:", e);
 		}
 	}
 	@Override
@@ -176,5 +178,38 @@ public abstract class GTBaseCommand extends CommandBase {
 	 */
 	public final boolean hasAlias(String test) {
 		return this.aliases.contains(test);
+	}
+	/**
+	 * Convenience method for simulating the use of the command
+	 * 
+	 * @param src
+	 *            - the {@link ICommandSender} to use as the origin
+	 * @param player
+	 *            - the {@link EntityPlayer} to use as the origin, or <code>null</code> to pretend it wasn't used by a player
+	 * @param args
+	 *            - the arguments to the command (may be null, in which case an empty array will be constructed and used)
+	 */
+	public final void call(ICommandSender src, EntityPlayer player, Object... args) {
+		if (args == null) {
+			this.execute(src, player, new String[] {});
+		}
+		else {
+			String[] params = new String[args.length];
+			for (int i = 0; i < args.length; ++i) {
+				params[i] = String.valueOf(args[i]);
+			}
+			this.execute(src, player, params);
+		}
+	}
+	/**
+	 * Convenience method for simulating the use of the command with no arguments
+	 * 
+	 * @param src
+	 *            - the {@link ICommandSender} to use as the origin
+	 * @param player
+	 *            - the {@link EntityPlayer} to use as the origin, or <code>null</code> to pretend it wasn't used by a player
+	 */
+	public final void call(ICommandSender src, EntityPlayer player) {
+		this.call(src, player, null);
 	}
 }

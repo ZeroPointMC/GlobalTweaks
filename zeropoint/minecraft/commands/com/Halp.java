@@ -35,7 +35,7 @@ public class Halp extends GTBaseCommand {
 			GTBaseCommand cmd = GTCommands.getCommand(args[0]);
 			if (cmd != null) {
 				String usage = cmd.getCommandUsage(src);
-				new ChatMsg(usage.startsWith("/") ? usage : "/" + usage).send(src);
+				new ChatMsg(ChatMsg.MAROON + usage).send(src);
 				new ChatMsg(cmd.getCommandHelp(src)).send(src);
 			}
 			else {

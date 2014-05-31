@@ -9,17 +9,20 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import net.minecraft.command.ICommandSender;
+import net.minecraft.crash.CrashReport;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ReportedException;
 import net.minecraft.util.StringTranslate;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import zeropoint.core.io.StringBufferInputStream;
+import zeropoint.minecraft.core.asm.GTLoadingPlugin;
 import zeropoint.minecraft.core.util.Log;
 import zeropoint.minecraft.core.util.manip.EnchantHelper;
 import cpw.mods.fml.common.Loader;
@@ -99,7 +102,7 @@ public class GTCore {
 		private static boolean craft = false;
 		private static boolean enchant = false;
 		private static boolean sonic = false;
-		private static boolean tomes = false;
+		private static boolean arcana = false;
 		private static boolean effects = false;
 		private static boolean misc = false;
 		/**
@@ -135,8 +138,8 @@ public class GTCore {
 		/**
 		 * @return <code>true</code> iff the Tomes module is enabled
 		 */
-		public static boolean tomesEnabled() {
-			return tomes;
+		public static boolean arcanaEnabled() {
+			return arcana;
 		}
 		/**
 		 * @return <code>true</code> iff the Misc module is enabled
@@ -157,7 +160,7 @@ public class GTCore {
 		Modules.sonic = cfg.bool("enable", "sonic", true, "Enable the GlobalTweaks|Sonic module?");
 		Modules.effects = cfg.bool("enable", "effects", true, "Enable the GlobalTweaks|Effects module?");
 		Modules.enchant = cfg.bool("enable", "enchant", true, "Enable the GlobalTweaks|Enchant module?");
-		Modules.tomes = cfg.bool("enable", "tomes", true, "Enable the GlobalTweaks|Tomes module?");
+		Modules.arcana = cfg.bool("enable", "arcana", true, "Enable the GlobalTweaks|Arcana module?");
 		Modules.misc = cfg.bool("enable", "misc", true, "Enable the GlobalTweaks|Misc module?");
 		logger.config("Configuration initialized");
 	}
@@ -300,5 +303,50 @@ public class GTCore {
 			logger.log(Level.WARNING, "Error injecting string localization", e);
 		}
 		LanguageRegistry.instance().addStringLocalization(from, to);
+	}
+	/**
+	 * @param description
+	 *            - the reason for crashing
+	 * @param cause
+	 *            - the {@link Throwable} that caused the crash
+	 * @throws ReportedException
+	 *             with the given description and cause
+	 */
+	public static final void crash(String description, Throwable cause) throws ReportedException {
+		crash(description, cause, 1);
+	}
+	/**
+	 * @param cause
+	 *            - the {@link Throwable} that caused the crash
+	 * @throws ReportedException
+	 *             with the given description and cause
+	 */
+	public static final void crash(Throwable cause) throws ReportedException {
+		crash(cause.getLocalizedMessage(), cause, 1);
+	}
+	/**
+	 * @param description
+	 *            - the reason for crashing
+	 * @param cause
+	 *            - the {@link Throwable} that caused the crash
+	 * @param level
+	 *            - how many frames to pull from the stack trace
+	 * @throws ReportedException
+	 *             with the given description and cause
+	 */
+	public static final void crash(String description, Throwable cause, int level) throws ReportedException {
+		++level;
+		ReportedException e = new ReportedException(new CrashReport(description, cause));
+		StackTraceElement[] trace = e.getStackTrace();
+		StackTraceElement[] newTrace = new StackTraceElement[trace.length - level];
+		System.arraycopy(trace, 1, newTrace, 0, trace.length - level);
+		e.setStackTrace(newTrace);
+		throw e;
+	}
+	/**
+	 * @return <code>true</code> if we are running in a deobfuscated environment, <code>false</code> otherwise
+	 */
+	public static final boolean inDev() {
+		return GTLoadingPlugin.isDevEnrivonment();
 	}
 }

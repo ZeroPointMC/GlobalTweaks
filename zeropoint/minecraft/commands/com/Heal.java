@@ -44,7 +44,8 @@ public class Heal extends GTBaseCommand {
 				arg = Integer.parseInt(args[0]);
 			}
 			catch (Exception e) {
-				arg = 1;
+				this.call(src, player);
+				return;
 			}
 			PlayerHelper.setPlayerHealth(player, (int) (player.getHealth() + player.getAbsorptionAmount() + arg));
 		}

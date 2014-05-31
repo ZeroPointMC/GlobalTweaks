@@ -73,7 +73,7 @@ public class GTEnchant {
 		else {
 			LOG.info("Didn't register Speed of the Wolf enchantment");
 		}
-		if (getEnchantEnabled("jagged", true, "Register the DoT Jagged enchantment?")) {
+		if (getEnchantEnabled("jagged", GTCore.Modules.effectsEnabled(), "Register the DoT Jagged enchantment?") && GTCore.Modules.effectsEnabled()) {
 			enchants.put("jagged", new EnchantmentJagged(jagged, jaggedMaxLvl > 10 ? 10 : jaggedMaxLvl < 1 ? 1 : jaggedMaxLvl, jaggedBaseDuration, jaggedFactor));
 			LOG.info("Registered Jagged enchantment");
 		}

@@ -1,10 +1,18 @@
 package zeropoint.minecraft.core.util.manip;
 
 
+import java.util.UUID;
+
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.entity.ai.attributes.BaseAttributeMap;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
 
 
 /**
@@ -13,6 +21,14 @@ import net.minecraft.item.ItemStack;
  * @author Zero Point
  */
 public class PlayerHelper {
+	/**
+	 * The name of the AttributeModifer applied when increasing max health
+	 */
+	public static final String MODIFIER_NAME = "GT_command_health";
+	/**
+	 * The UUID of the AttributeModifier applied when increasing max health
+	 */
+	public static final UUID MODIFIER_UUID = UUID.fromString("5B71B8ED-34AD-4386-930B-FFC9C091A974");
 	/**
 	 * The maximum amount of absorption to add
 	 */
@@ -39,6 +55,24 @@ public class PlayerHelper {
 	 *            - the player to set the health of
 	 * @param health
 	 *            - the amount of health (optionally with absorption) to add
+	 * @param overheal
+	 *            - <code>true</code> to increase max health (if needed), <code>false</code> to apply absorption instead
+	 * @see #setPlayerHealth(EntityPlayer, int)
+	 * @see #setPlayerHealthWithOverheal(EntityPlayer, int)
+	 */
+	public final static void setPlayerHealth(EntityPlayer player, int health, boolean overheal) {
+		if (overheal) {
+			setPlayerHealthWithOverheal(player, health);
+		}
+		else {
+			setPlayerHealth(player, health);
+		}
+	}
+	/**
+	 * @param player
+	 *            - the player to set the health of
+	 * @param health
+	 *            - the amount of health (optionally with absorption) to add
 	 * @see #hpMax(EntityPlayer player)
 	 */
 	public final static void setPlayerHealth(EntityPlayer player, int health) {
@@ -47,15 +81,62 @@ public class PlayerHelper {
 		if (health > smax) {
 			health = smax;
 		}
-		else if (health < 1) {
-			health = 1;
+		else if (health < 0) {
+			player.setHealth(0);
+			player.setDead();
+			return;
 		}
 		if (health > amax) {
+			int absorb = health - amax;
+			player.setAbsorptionAmount(absorb);
 			player.setHealth(amax);
-			player.setAbsorptionAmount(health - amax);
 		}
 		else {
 			player.setHealth(health);
+			player.setAbsorptionAmount(0);
+		}
+	}
+	/**
+	 * <b><i>This function is experimental.</i></b><br/>
+	 * <b>It may not work properly.</b><br/>
+	 * <br/>
+	 * You are advised to instead call the method {@link #setPlayerMaxHealth(EntityPlayer, int)} followed
+	 * by {@link #setPlayerHealth(EntityPlayer, int)}.
+	 * 
+	 * @param player
+	 *            - the player to set the health of
+	 * @param health
+	 *            - the amount of health (optionally with absorption) to add
+	 */
+	public final static void setPlayerHealthWithOverheal(EntityPlayer player, int health) {
+		final int max = (int) player.getMaxHealth();
+		if (health < 0) {
+			player.setHealth(0);
+			player.setDead();
+			return;
+		}
+		if (health > max) {
+			setPlayerMaxHealth(player, health);
+		}
+		player.setHealth(health);
+	}
+	/**
+	 * @param player
+	 *            - the player to set the maximum health of
+	 * @param newMax
+	 *            - the new maximum health for the player
+	 */
+	public static final void setPlayerMaxHealth(EntityPlayer player, int newMax) {
+		int amnt = newMax - 20;
+		BaseAttributeMap attrs = player.getAttributeMap();
+		Multimap<String, AttributeModifier> modMap = HashMultimap.<String, AttributeModifier>create();
+		AttributeModifier modifier = new AttributeModifier(MODIFIER_UUID, MODIFIER_NAME, amnt, 0);
+		modMap.put(SharedMonsterAttributes.maxHealth.getAttributeUnlocalizedName(), modifier);
+		if (amnt != 0) {
+			attrs.applyAttributeModifiers(modMap);
+		}
+		else {
+			attrs.removeAttributeModifiers(modMap);
 		}
 	}
 	/**
@@ -136,6 +217,8 @@ public class PlayerHelper {
 		repairArmour(player);
 	}
 	/**
+	 * Check if the player is holding an item
+	 * 
 	 * @param player
 	 *            - the player to examine
 	 * @return <code>true</code> if the player is holding anything
@@ -144,6 +227,8 @@ public class PlayerHelper {
 		return (player != null) && (player.getCurrentEquippedItem() != null);
 	}
 	/**
+	 * Check if the player is holding a specific item
+	 * 
 	 * @param player
 	 *            - the player to examine
 	 * @param testFor
@@ -154,6 +239,8 @@ public class PlayerHelper {
 		return isHolding(player) && (player.getCurrentEquippedItem().itemID == testFor.itemID);
 	}
 	/**
+	 * Check if the player is holding a specific stack of items
+	 * 
 	 * @param player
 	 *            - the player to examine
 	 * @param testFor
@@ -163,6 +250,10 @@ public class PlayerHelper {
 	 */
 	@Deprecated
 	public static final boolean isHolding(EntityPlayer player, ItemStack testFor) {
-		return isHolding(player, testFor.getItem());
+		if ( !isHolding(player)) {
+			return false;
+		}
+		ItemStack held = player.getCurrentEquippedItem();
+		return ItemStackHelper.equal(held, testFor);
 	}
 }

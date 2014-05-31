@@ -49,7 +49,7 @@ public class GTEffect {
 		LOG.info("Registering items");
 	}
 	private static void prepare() {
-		final int lim = 256;
+		final int lim = 255;
 		LOG.info("Attempting to extend potion effect array to " + lim);
 		Potion[] potionTypes = null;
 		for (Field f : Potion.class.getDeclaredFields()) {
@@ -60,9 +60,15 @@ public class GTEffect {
 					modfield.setAccessible(true);
 					modfield.setInt(f, f.getModifiers() & ~Modifier.FINAL);
 					potionTypes = (Potion[]) f.get(null);
+					final int currLen = potionTypes.length;
+					if (currLen >= (lim + 1)) {
+						LOG.info("Potion effect array already extended to " + currLen);
+						return;
+					}
 					final Potion[] newPotionTypes = new Potion[lim];
 					System.arraycopy(potionTypes, 0, newPotionTypes, 0, potionTypes.length);
 					f.set(null, newPotionTypes);
+					LOG.info("Potion effect array extended from " + currLen + " to " + (lim + 1));
 				}
 			}
 			catch (Exception e) {
@@ -70,6 +76,7 @@ public class GTEffect {
 			}
 		}
 	}
+	@Deprecated
 	public static int bleedID() {
 		return potBleed.id;
 	}

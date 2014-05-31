@@ -152,7 +152,8 @@ public class EnchantmentDecapitate extends CraftedEnchantment {
 		else {
 			return null;
 		}
-		skull.stackTagCompound.setByte("SkullType", (byte) (skull.getItemDamage()));
+		// skull.stackTagCompound.setString("ExtraType", skull.stackTagCompound.getString("ExtraType"));
+		// skull.stackTagCompound.setByte("SkullType", (byte) (skull.getItemDamage()));
 		return skull;
 	}
 }

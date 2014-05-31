@@ -17,59 +17,59 @@ public class ChatMsg {
 	 */
 	public static final String BLACK = "§0";
 	/**
-	 * Format code for Dark Blue (0000AA)
+	 * Format code for Dark Blue (<span style="color:#0000AA;">0000AA</span>)
 	 */
 	public static final String INDIGO = "§1";
 	/**
-	 * Format code for Dark Green (00AA00)
+	 * Format code for Dark Green (<span style="color:#00AA00;">00AA00</span>)
 	 */
 	public static final String GREEN = "§2";
 	/**
-	 * Format code for Dark Aqua (00AAAA)
+	 * Format code for Dark Aqua (<span style="color:#00AAAA;">00AAAA</span>)
 	 */
 	public static final String BLUE = "§3";
 	/**
-	 * Format code for Dark Red (AA0000)
+	 * Format code for Dark Red (<span style="color:#AA0000;">AA0000</span>)
 	 */
 	public static final String MAROON = "§4";
 	/**
-	 * Format code for Dark Purple (AA00AA)
+	 * Format code for Dark Purple (<span style="color:#AA00AA;">AA00AA</span>)
 	 */
 	public static final String PURPLE = "§5";
 	/**
-	 * Format code for Gold (FFAA00)
+	 * Format code for Gold (<span style="color:#FFAA00;">FFAA00</span>)
 	 */
 	public static final String GOLD = "§6";
 	/**
-	 * Format code for Gray (AAAAAA)
+	 * Format code for Gray (<span style="color:#AAAAAA;">AAAAAA</span>)
 	 */
 	public static final String SILVER = "§7";
 	/**
-	 * Format code for Dark Gray (555555)
+	 * Format code for Dark Gray (<span style="color:#555555;">555555</span>)
 	 */
 	public static final String GRAY = "§8";
 	/**
-	 * Format code for Blue (5555FF)
+	 * Format code for Blue (<span style="color:#5555FF;">5555FF</span>)
 	 */
 	public static final String CYAN = "§9";
 	/**
-	 * Format code for Green (55FF55)
+	 * Format code for Green (<span style="color:#55FF55;">55FF55</span>)
 	 */
 	public static final String LIME = "§a";
 	/**
-	 * Format code for Aqua (55FFFF)
+	 * Format code for Aqua (<span style="color:#55FFFF;">55FFFF</span>)
 	 */
 	public static final String SKY = "§b";
 	/**
-	 * Format code for Red (FF5555)
+	 * Format code for Red (<span style="color:#FF5555;">FF5555</span>)
 	 */
 	public static final String RED = "§c";
 	/**
-	 * Format code for Light Purple (FF55FF)
+	 * Format code for Light Purple (<span style="color:#FF55FF;">FF55FF</span>)
 	 */
 	public static final String MAGENTA = "§d";
 	/**
-	 * Format code for Yellow (FFFF55)
+	 * Format code for Yellow (<span style="color:#FFFF55;">FFFF55</span>)
 	 */
 	public static final String YELLOW = "§e";
 	/**
@@ -81,19 +81,19 @@ public class ChatMsg {
 	 */
 	public static final String RANDOM = "§k";
 	/**
-	 * Format code for Bold
+	 * Format code for <b>Bold</b>
 	 */
 	public static final String BOLD = "§l";
 	/**
-	 * Format code for Strikethrough
+	 * Format code for <span style="text-decoration:line-through;">Strikethrough</span>
 	 */
 	public static final String STRIKE = "§m";
 	/**
-	 * Format code for Underline
+	 * Format code for <u>Underline</u>
 	 */
 	public static final String UNDERLINE = "§n";
 	/**
-	 * Format code for Italic
+	 * Format code for <i>Italic</i>
 	 */
 	public static final String ITALIC = "§o";
 	/**

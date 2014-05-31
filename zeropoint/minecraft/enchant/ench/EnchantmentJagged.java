@@ -101,6 +101,7 @@ public class EnchantmentJagged extends CraftedEnchantment {
 		if (level < 1) {
 			return;
 		}
+		@SuppressWarnings("deprecation")
 		PotionEffect bleed = new PotionEffect(GTEffect.bleedID(), this.baseDuration + (level * this.levelFactor), level, true);
 		target.addPotionEffect(bleed);
 	}
